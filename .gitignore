@@ -1,0 +1,16 @@
+# root .gitignore
+node_modules/
+.env
+.env.local
+dist/
+.next/
+*.log
+uploads/
+
+node_modules/
+.env
+.env.local
+dist/
+.next/
+*.log
+.DS_Store

@@ -16,34 +16,32 @@ import {
 
 const bentoItems = [
   {
-    icon:       <HiOutlineClipboardDocumentList className="h-6 w-6 text-indigo-500" />,
-    title:      "Task Manager",
-    desc:       "Create, filter, search and sort tasks by priority, due date and tags. Full CRUD with comments.",
-    color:      "bg-indigo-50 dark:bg-indigo-950",
+    icon: <HiOutlineClipboardDocumentList className="h-6 w-6 text-indigo-500" />,
+    title: "Task Manager",
+    desc: "Create, filter, search and sort tasks by priority, due date and tags. Full CRUD with comments.",
+    color: "bg-indigo-50 dark:bg-indigo-950",
     // mobile: full width | tablet: half | desktop: quarter
-    className:  "col-span-1 sm:col-span-2 lg:col-span-1",
-    badge:      "Core",
+    className: "col-span-1 sm:col-span-2 lg:col-span-1",
+    badge: "Core",
     badgeColor: "bg-indigo-100 text-indigo-700",
     preview: (
       <div className="mt-4 space-y-2">
         {[
-          { label: "Design login page", status: "done",        priority: "high"   },
+          { label: "Design login page", status: "done", priority: "high" },
           { label: "Fix API endpoints", status: "in-progress", priority: "medium" },
-          { label: "Write unit tests",  status: "todo",        priority: "low"    },
+          { label: "Write unit tests", status: "todo", priority: "low" },
         ].map((t, i) => (
           <div key={i} className="flex items-center gap-2 bg-background/60 rounded-lg px-3 py-2">
-            <span className={`h-2 w-2 rounded-full shrink-0 ${
-              t.status === "done"        ? "bg-green-500"  :
-              t.status === "in-progress" ? "bg-yellow-500" : "bg-gray-400"
-            }`} />
+            <span className={`h-2 w-2 rounded-full shrink-0 ${t.status === "done" ? "bg-green-500" :
+                t.status === "in-progress" ? "bg-yellow-500" : "bg-gray-400"
+              }`} />
             <p className={`text-xs flex-1 truncate ${t.status === "done" ? "line-through text-muted-foreground" : ""}`}>
               {t.label}
             </p>
-            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium whitespace-nowrap ${
-              t.priority === "high"   ? "bg-red-100 text-red-600"       :
-              t.priority === "medium" ? "bg-yellow-100 text-yellow-600" :
-              "bg-gray-100 text-gray-500"
-            }`}>
+            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium whitespace-nowrap ${t.priority === "high" ? "bg-red-100 text-red-600" :
+                t.priority === "medium" ? "bg-yellow-100 text-yellow-600" :
+                  "bg-gray-100 text-gray-500"
+              }`}>
               {t.priority}
             </span>
           </div>
@@ -52,20 +50,20 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineChartBarSquare className="h-6 w-6 text-purple-500" />,
-    title:      "Live Analytics",
-    desc:       "Real charts from your data — completion rates, priority breakdown, due-soon alerts.",
-    color:      "bg-purple-50 dark:bg-purple-950",
-    className:  "col-span-1 sm:col-span-2 lg:col-span-1",
-    badge:      "Insights",
+    icon: <HiOutlineChartBarSquare className="h-6 w-6 text-purple-500" />,
+    title: "Live Analytics",
+    desc: "Real charts from your data — completion rates, priority breakdown, due-soon alerts.",
+    color: "bg-purple-50 dark:bg-purple-950",
+    className: "col-span-1 sm:col-span-2 lg:col-span-1",
+    badge: "Insights",
     badgeColor: "bg-purple-100 text-purple-700",
     preview: (
       <div className="mt-4 space-y-2">
         <div className="grid grid-cols-3 gap-2">
           {[
-            { label: "Total", value: "24",  color: "text-foreground" },
-            { label: "Done",  value: "18",  color: "text-green-600"  },
-            { label: "Rate",  value: "75%", color: "text-indigo-600" },
+            { label: "Total", value: "24", color: "text-foreground" },
+            { label: "Done", value: "18", color: "text-green-600" },
+            { label: "Rate", value: "75%", color: "text-indigo-600" },
           ].map((s, i) => (
             <div key={i} className="bg-background/60 rounded-lg p-2 text-center">
               <p className={`text-base font-bold ${s.color}`}>{s.value}</p>
@@ -89,20 +87,20 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineBolt className="h-6 w-6 text-yellow-500" />,
-    title:      "Kanban Board",
-    desc:       "Drag and drop tasks between columns. Add new tasks directly from the board in seconds.",
-    color:      "bg-yellow-50 dark:bg-yellow-950",
+    icon: <HiOutlineBolt className="h-6 w-6 text-yellow-500" />,
+    title: "Kanban Board",
+    desc: "Drag and drop tasks between columns. Add new tasks directly from the board in seconds.",
+    color: "bg-yellow-50 dark:bg-yellow-950",
     // full width on all sizes
-    className:  "col-span-1 sm:col-span-4 lg:col-span-2",
-    badge:      "Productivity",
+    className: "col-span-1 sm:col-span-4 lg:col-span-2",
+    badge: "Productivity",
     badgeColor: "bg-yellow-100 text-yellow-700",
     preview: (
       <div className="mt-4 grid grid-cols-3 gap-2">
         {[
-          { col: "To Do",       color: "bg-gray-100 dark:bg-gray-800",     tasks: ["Write docs", "Add tests"]            },
-          { col: "In Progress", color: "bg-yellow-100 dark:bg-yellow-900", tasks: ["Build dashboard", "Fix auth bug"]     },
-          { col: "Done",        color: "bg-green-100 dark:bg-green-900",   tasks: ["Setup project", "Configure Tailwind"] },
+          { col: "To Do", color: "bg-gray-100 dark:bg-gray-800", tasks: ["Write docs", "Add tests"] },
+          { col: "In Progress", color: "bg-yellow-100 dark:bg-yellow-900", tasks: ["Build dashboard", "Fix auth bug"] },
+          { col: "Done", color: "bg-green-100 dark:bg-green-900", tasks: ["Setup project", "Configure Tailwind"] },
         ].map((col, i) => (
           <div key={i} className={`rounded-lg p-2 ${col.color}`}>
             <p className="text-xs font-semibold mb-2">{col.col}</p>
@@ -119,17 +117,17 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineCalendarDays className="h-6 w-6 text-green-500" />,
-    title:      "Calendar & Schedule",
-    desc:       "Track deadlines and events. Click any day to see what is due and plan ahead.",
-    color:      "bg-green-50 dark:bg-green-950",
-    className:  "col-span-1 sm:col-span-2 lg:col-span-1",
-    badge:      "Planning",
+    icon: <HiOutlineCalendarDays className="h-6 w-6 text-green-500" />,
+    title: "Calendar & Schedule",
+    desc: "Track deadlines and events. Click any day to see what is due and plan ahead.",
+    color: "bg-green-50 dark:bg-green-950",
+    className: "col-span-1 sm:col-span-2 lg:col-span-1",
+    badge: "Planning",
     badgeColor: "bg-green-100 text-green-700",
     preview: (
       <div className="mt-4 bg-background/60 rounded-lg p-3">
         <div className="grid grid-cols-7 gap-0.5 mb-1.5">
-          {["S","M","T","W","T","F","S"].map((d, i) => (
+          {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
             <div key={i} className="text-center text-xs text-muted-foreground font-medium">{d}</div>
           ))}
         </div>
@@ -137,12 +135,11 @@ const bentoItems = [
           {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
             <div
               key={d}
-              className={`text-center text-xs py-0.5 rounded ${
-                d === 14 ? "bg-indigo-500 text-white font-bold" :
-                [7, 18, 25].includes(d)
-                  ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300"
-                  : "text-muted-foreground"
-              }`}
+              className={`text-center text-xs py-0.5 rounded ${d === 14 ? "bg-indigo-500 text-white font-bold" :
+                  [7, 18, 25].includes(d)
+                    ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300"
+                    : "text-muted-foreground"
+                }`}
             >
               {d}
             </div>
@@ -152,23 +149,22 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineBellAlert className="h-6 w-6 text-pink-500" />,
-    title:      "Notifications",
-    desc:       "Stay updated with in-app alerts. Filter by read/unread, dismiss or mark all read.",
-    color:      "bg-pink-50 dark:bg-pink-950",
-    className:  "col-span-1 sm:col-span-2 lg:col-span-1",
-    badge:      "Alerts",
+    icon: <HiOutlineBellAlert className="h-6 w-6 text-pink-500" />,
+    title: "Notifications",
+    desc: "Stay updated with in-app alerts. Filter by read/unread, dismiss or mark all read.",
+    color: "bg-pink-50 dark:bg-pink-950",
+    className: "col-span-1 sm:col-span-2 lg:col-span-1",
+    badge: "Alerts",
     badgeColor: "bg-pink-100 text-pink-700",
     preview: (
       <div className="mt-4 space-y-2">
         {[
-          { dot: "bg-blue-500",   title: "New user registered", time: "2m ago",  unread: true  },
-          { dot: "bg-green-500",  title: "Payment received",    time: "15m ago", unread: true  },
-          { dot: "bg-yellow-500", title: "Server warning",      time: "1h ago",  unread: false },
+          { dot: "bg-blue-500", title: "New user registered", time: "2m ago", unread: true },
+          { dot: "bg-green-500", title: "Payment received", time: "15m ago", unread: true },
+          { dot: "bg-yellow-500", title: "Server warning", time: "1h ago", unread: false },
         ].map((n, i) => (
-          <div key={i} className={`flex items-center gap-2 rounded-lg px-3 py-2 ${
-            n.unread ? "bg-indigo-50/60 dark:bg-indigo-950/40" : "bg-background/60"
-          }`}>
+          <div key={i} className={`flex items-center gap-2 rounded-lg px-3 py-2 ${n.unread ? "bg-indigo-50/60 dark:bg-indigo-950/40" : "bg-background/60"
+            }`}>
             <span className={`h-2 w-2 rounded-full shrink-0 ${n.dot}`} />
             <p className={`text-xs flex-1 truncate ${n.unread ? "font-semibold" : ""}`}>
               {n.title}
@@ -180,21 +176,21 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineMapPin className="h-6 w-6 text-teal-500" />,
-    title:      "Global Map",
-    desc:       "Visualise user distribution and revenue by region. Click any pin to inspect stats.",
-    color:      "bg-teal-50 dark:bg-teal-950",
-    className:  "col-span-1 sm:col-span-2 lg:col-span-1",
-    badge:      "Global",
+    icon: <HiOutlineMapPin className="h-6 w-6 text-teal-500" />,
+    title: "Global Map",
+    desc: "Visualise user distribution and revenue by region. Click any pin to inspect stats.",
+    color: "bg-teal-50 dark:bg-teal-950",
+    className: "col-span-1 sm:col-span-2 lg:col-span-1",
+    badge: "Global",
     badgeColor: "bg-teal-100 text-teal-700",
     preview: (
       <div className="mt-4 bg-linear-to-b from-sky-100 to-blue-200 dark:from-slate-800 dark:to-slate-900 rounded-lg relative h-24 overflow-hidden">
         <svg viewBox="0 0 100 40" className="w-full h-full absolute inset-0">
           <ellipse cx="22" cy="20" rx="10" ry="10" fill="#c7d2fe" opacity="0.7" />
-          <ellipse cx="47" cy="15" rx="6"  ry="6"  fill="#c7d2fe" opacity="0.7" />
-          <ellipse cx="49" cy="26" rx="5"  ry="7"  fill="#c7d2fe" opacity="0.7" />
-          <ellipse cx="70" cy="18" rx="13" ry="8"  fill="#c7d2fe" opacity="0.7" />
-          <ellipse cx="80" cy="30" rx="5"  ry="4"  fill="#c7d2fe" opacity="0.7" />
+          <ellipse cx="47" cy="15" rx="6" ry="6" fill="#c7d2fe" opacity="0.7" />
+          <ellipse cx="49" cy="26" rx="5" ry="7" fill="#c7d2fe" opacity="0.7" />
+          <ellipse cx="70" cy="18" rx="13" ry="8" fill="#c7d2fe" opacity="0.7" />
+          <ellipse cx="80" cy="30" rx="5" ry="4" fill="#c7d2fe" opacity="0.7" />
         </svg>
         {[
           { cx: "22%", cy: "50%" },
@@ -215,12 +211,12 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineCreditCard className="h-6 w-6 text-orange-500" />,
-    title:      "Payment Overview",
-    desc:       "Track transactions, filter by status, and view 6-month revenue trends at a glance.",
-    color:      "bg-orange-50 dark:bg-orange-950",
-    className:  "col-span-1 sm:col-span-2 lg:col-span-1",
-    badge:      "Finance",
+    icon: <HiOutlineCreditCard className="h-6 w-6 text-orange-500" />,
+    title: "Payment Overview",
+    desc: "Track transactions, filter by status, and view 6-month revenue trends at a glance.",
+    color: "bg-orange-50 dark:bg-orange-950",
+    className: "col-span-1 sm:col-span-2 lg:col-span-1",
+    badge: "Finance",
     badgeColor: "bg-orange-100 text-orange-700",
     preview: (
       <div className="mt-4 space-y-2">
@@ -230,17 +226,16 @@ const bentoItems = [
         </div>
         {[
           { name: "Alice Johnson", amount: "$120", status: "completed" },
-          { name: "Bob Smith",     amount: "$75",  status: "pending"   },
-          { name: "Carol White",   amount: "$340", status: "failed"    },
+          { name: "Bob Smith", amount: "$75", status: "pending" },
+          { name: "Carol White", amount: "$340", status: "failed" },
         ].map((p, i) => (
           <div key={i} className="flex items-center justify-between bg-background/60 rounded-lg px-3 py-1.5">
             <p className="text-xs truncate flex-1">{p.name}</p>
             <p className="text-xs font-medium mx-2 whitespace-nowrap">{p.amount}</p>
-            <span className={`text-xs px-1.5 py-0.5 rounded whitespace-nowrap ${
-              p.status === "completed" ? "bg-green-100 text-green-700" :
-              p.status === "pending"   ? "bg-yellow-100 text-yellow-700" :
-              "bg-red-100 text-red-600"
-            }`}>
+            <span className={`text-xs px-1.5 py-0.5 rounded whitespace-nowrap ${p.status === "completed" ? "bg-green-100 text-green-700" :
+                p.status === "pending" ? "bg-yellow-100 text-yellow-700" :
+                  "bg-red-100 text-red-600"
+              }`}>
               {p.status}
             </span>
           </div>
@@ -249,12 +244,12 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineShieldCheck className="h-6 w-6 text-indigo-500" />,
-    title:      "Secure Auth",
-    desc:       "JWT cookies, Google OAuth, GitHub OAuth, bcrypt hashing and role-based access control.",
-    color:      "bg-indigo-50 dark:bg-indigo-950",
-    className:  "col-span-1 sm:col-span-2 lg:col-span-1",
-    badge:      "Security",
+    icon: <HiOutlineShieldCheck className="h-6 w-6 text-indigo-500" />,
+    title: "Secure Auth",
+    desc: "JWT cookies, Google OAuth, GitHub OAuth, bcrypt hashing and role-based access control.",
+    color: "bg-indigo-50 dark:bg-indigo-950",
+    className: "col-span-1 sm:col-span-2 lg:col-span-1",
+    badge: "Security",
     badgeColor: "bg-indigo-100 text-indigo-700",
     preview: (
       <div className="mt-4 space-y-2">
@@ -274,13 +269,13 @@ const bentoItems = [
     ),
   },
   {
-    icon:       <HiOutlineUserGroup className="h-6 w-6 text-blue-500" />,
-    title:      "User Management",
-    desc:       "Admins can search, promote, demote and delete users. Full platform stats in one view.",
-    color:      "bg-blue-50 dark:bg-blue-950",
+    icon: <HiOutlineUserGroup className="h-6 w-6 text-blue-500" />,
+    title: "User Management",
+    desc: "Admins can search, promote, demote and delete users. Full platform stats in one view.",
+    color: "bg-blue-50 dark:bg-blue-950",
     // full width on all breakpoints
-    className:  "col-span-1 sm:col-span-4 lg:col-span-2",
-    badge:      "Admin",
+    className: "col-span-1 sm:col-span-4 lg:col-span-2",
+    badge: "Admin",
     badgeColor: "bg-blue-100 text-blue-700",
     preview: (
       <div className="mt-4 overflow-x-auto rounded-lg border">
@@ -295,19 +290,18 @@ const bentoItems = [
           </thead>
           <tbody className="divide-y">
             {[
-              { name: "Alice J.",  email: "alice@...", role: "admin" },
-              { name: "Bob S.",    email: "bob@...",   role: "user"  },
-              { name: "Carol W.",  email: "carol@...", role: "user"  },
+              { name: "Alice J.", email: "alice@...", role: "admin" },
+              { name: "Bob S.", email: "bob@...", role: "user" },
+              { name: "Carol W.", email: "carol@...", role: "user" },
             ].map((u, i) => (
               <tr key={i} className="hover:bg-muted/20">
                 <td className="px-3 py-2 font-medium">{u.name}</td>
                 <td className="px-3 py-2 text-muted-foreground hidden sm:table-cell">{u.email}</td>
                 <td className="px-3 py-2">
-                  <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${
-                    u.role === "admin"
+                  <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${u.role === "admin"
                       ? "bg-indigo-100 text-indigo-700"
                       : "bg-gray-100 text-gray-600"
-                  }`}>
+                    }`}>
                     {u.role}
                   </span>
                 </td>

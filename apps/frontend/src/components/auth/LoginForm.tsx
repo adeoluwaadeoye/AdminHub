@@ -46,7 +46,7 @@ export default function LoginForm() {
     }
   };
 
-  // ✅ shows loading state then redirects to backend OAuth route
+  // shows loading state then redirects to backend OAuth route
   const handleOAuth = (provider: "google" | "github") => {
     setOauthLoading(provider);
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/${provider}`;
@@ -175,7 +175,6 @@ export default function LoginForm() {
             </Link>
             <p className="text-muted-foreground">
               Don&apos;t have an account?{" "}
-              {/* ✅ Link instead of <a> */}
               <Link
                 href="/auth/register"
                 className="text-primary font-medium hover:underline"

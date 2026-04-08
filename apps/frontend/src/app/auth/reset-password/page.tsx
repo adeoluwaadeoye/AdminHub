@@ -43,7 +43,7 @@ function ResetForm() {
       });
       toast.success("Password reset successfully!");
       router.push("/auth/login");
-    } catch (err: unknown) { // ✅ fixed
+    } catch (err: unknown) { 
       const message = err instanceof Error ? err.message : "Reset failed. Link may have expired.";
       toast.error(message);
     } finally {

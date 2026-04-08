@@ -18,41 +18,41 @@ import Link from "next/link";
 // ✅ FullTask defined here — no duplicate import
 type FullTask = Task & {
   priority: "low" | "medium" | "high";
-  dueDate:  string | null;
-  tags:     string[];
+  dueDate: string | null;
+  tags: string[];
   comments: { _id: string; text: string; createdAt: string }[];
 };
 
 const statusStyles: Record<TaskStatus, string> = {
-  "todo":        "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
+  "todo": "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
   "in-progress": "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
-  "done":        "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+  "done": "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
 };
 
 const statusCycle: Record<TaskStatus, TaskStatus> = {
-  "todo":        "in-progress",
+  "todo": "in-progress",
   "in-progress": "done",
-  "done":        "todo",
+  "done": "todo",
 };
 
 const statusLabel: Record<TaskStatus, string> = {
-  "todo":        "To Do",
+  "todo": "To Do",
   "in-progress": "In Progress",
-  "done":        "Done",
+  "done": "Done",
 };
 
 export default function TaskDemo() {
-  const user        = useAuthStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
 
-  const [tasks,      setTasks]      = useState<FullTask[]>([]);
-  const [loading,    setLoading]    = useState(false);
-  const [creating,   setCreating]   = useState(false);
-  const [newTitle,   setNewTitle]   = useState("");
-  const [newDesc,    setNewDesc]    = useState("");
-  const [editId,     setEditId]     = useState<string | null>(null);
-  const [editTitle,  setEditTitle]  = useState("");
-  const [editDesc,   setEditDesc]   = useState("");
+  const [tasks, setTasks] = useState<FullTask[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDesc, setNewDesc] = useState("");
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editDesc, setEditDesc] = useState("");
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // ── FETCH ─────────────────────────────────────────────
@@ -82,7 +82,7 @@ export default function TaskDemo() {
     setCreating(true);
     try {
       const task = await taskApi.create({
-        title:       newTitle.trim(),
+        title: newTitle.trim(),
         description: newDesc.trim(),
       });
       setTasks((prev) => [task as FullTask, ...prev]);
@@ -119,7 +119,7 @@ export default function TaskDemo() {
     }
     try {
       const updated = await taskApi.update(id, {
-        title:       editTitle.trim(),
+        title: editTitle.trim(),
         description: editDesc.trim(),
       });
       setTasks((prev) =>
@@ -148,10 +148,10 @@ export default function TaskDemo() {
 
   // ── COUNTS ────────────────────────────────────────────
   const counts = {
-    total:      tasks.length,
-    todo:       tasks.filter((t) => t.status === "todo").length,
+    total: tasks.length,
+    todo: tasks.filter((t) => t.status === "todo").length,
     inProgress: tasks.filter((t) => t.status === "in-progress").length,
-    done:       tasks.filter((t) => t.status === "done").length,
+    done: tasks.filter((t) => t.status === "done").length,
   };
 
   // ── NOT LOGGED IN ─────────────────────────────────────
@@ -202,10 +202,10 @@ export default function TaskDemo() {
         {/* STAT PILLS */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { label: "Total",       value: counts.total,      color: "bg-background border"              },
-            { label: "To Do",       value: counts.todo,       color: "bg-gray-100 dark:bg-gray-800"      },
-            { label: "In Progress", value: counts.inProgress, color: "bg-yellow-50 dark:bg-yellow-900/30"},
-            { label: "Done",        value: counts.done,       color: "bg-green-50 dark:bg-green-900/30"  },
+            { label: "Total", value: counts.total, color: "bg-background border" },
+            { label: "To Do", value: counts.todo, color: "bg-gray-100 dark:bg-gray-800" },
+            { label: "In Progress", value: counts.inProgress, color: "bg-yellow-50 dark:bg-yellow-900/30" },
+            { label: "Done", value: counts.done, color: "bg-green-50 dark:bg-green-900/30" },
           ].map((s) => (
             <div key={s.label} className={`rounded-xl p-3 text-center ${s.color}`}>
               <p className="text-2xl font-bold">{s.value}</p>
@@ -261,9 +261,8 @@ export default function TaskDemo() {
             {tasks.map((task) => (
               <Card
                 key={task._id}
-                className={`shadow-sm transition-all duration-200 ${
-                  task.status === "done" ? "opacity-60" : ""
-                }`}
+                className={`shadow-sm transition-all duration-200 ${task.status === "done" ? "opacity-60" : ""
+                  }`}
               >
                 <CardContent className="p-4">
                   {editId === task._id ? (
@@ -315,11 +314,10 @@ export default function TaskDemo() {
 
                       {/* CONTENT */}
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-medium leading-snug ${
-                          task.status === "done"
+                        <p className={`text-sm font-medium leading-snug ${task.status === "done"
                             ? "line-through text-muted-foreground"
                             : ""
-                        }`}>
+                          }`}>
                           {task.title}
                         </p>
                         {task.description && (
@@ -353,7 +351,7 @@ export default function TaskDemo() {
                         >
                           {deletingId === task._id
                             ? <Loader2 className="h-3.5 w-3.5 animate-spin text-red-500" />
-                            : <Trash2  className="h-3.5 w-3.5 text-red-500" />
+                            : <Trash2 className="h-3.5 w-3.5 text-red-500" />
                           }
                         </button>
                       </div>

@@ -26,7 +26,7 @@ export const oauthCallback = (req: Request, res: Response) => {
     maxAge:   24 * 60 * 60 * 1000,
   });
 
-  // ✅ redirect to dashboard after successful OAuth
+  // redirect to dashboard after successful OAuth
   res.redirect(`${FRONTEND_URL}/dashboard`);
 };
 

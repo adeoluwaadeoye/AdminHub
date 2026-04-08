@@ -4,45 +4,45 @@ import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const footerLinks = {
   Product: [
-    { label: "Dashboard",       href: "/dashboard"            },
-    { label: "Tasks",           href: "/dashboard/tasks"      },
-    { label: "Analytics",       href: "/dashboard/analytics"  },
-    { label: "Admin",           href: "/dashboard/admin"      },
+    { label: "Dashboard", href: "/dashboard" },
+    { label: "Tasks", href: "/dashboard/tasks" },
+    { label: "Analytics", href: "/dashboard/analytics" },
+    { label: "Admin", href: "/dashboard/admin" },
   ],
   Account: [
-    { label: "Sign In",         href: "/auth/login"           },
-    { label: "Register",        href: "/auth/register"        },
-    { label: "Profile",         href: "/dashboard/profile"    },
+    { label: "Sign In", href: "/auth/login" },
+    { label: "Register", href: "/auth/register" },
+    { label: "Profile", href: "/dashboard/profile" },
     { label: "Forgot Password", href: "/auth/forgot-password" },
   ],
   Legal: [
-    { label: "Privacy Policy",  href: "#" },
-    { label: "Terms of Use",    href: "#" },
-    { label: "Cookie Policy",   href: "#" },
-    { label: "Support",         href: "#" },
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Use", href: "#" },
+    { label: "Cookie Policy", href: "#" },
+    { label: "Support", href: "#" },
   ],
 };
 
 const socials = [
   {
     label: "GitHub",
-    href:  "https://github.com/adeoluwaadeoye",
-    icon:  <FaGithub className="h-4 w-4" />,
+    href: "https://github.com/adeoluwaadeoye",
+    icon: <FaGithub className="h-4 w-4" />,
   },
   {
     label: "Twitter",
-    href:  "https://twitter.com",
-    icon:  <FaTwitter className="h-4 w-4" />,
+    href: "https://twitter.com",
+    icon: <FaTwitter className="h-4 w-4" />,
   },
   {
     label: "LinkedIn",
-    href:  "https://linkedin.com",
-    icon:  <FaLinkedin className="h-4 w-4" />,
+    href: "https://linkedin.com",
+    icon: <FaLinkedin className="h-4 w-4" />,
   },
   {
     label: "Email",
-    href:  "mailto:adeoluwaadeoye7@gmail.com",
-    icon:  <FaEnvelope className="h-4 w-4" />,
+    href: "mailto:adeoluwaadeoye7@gmail.com",
+    icon: <FaEnvelope className="h-4 w-4" />,
   },
 ];
 

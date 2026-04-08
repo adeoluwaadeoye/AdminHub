@@ -1,6 +1,5 @@
 import mongoose, { Document } from "mongoose";
 
-// ✅ add the new fields to the interface
 export interface IUser extends Document {
   name:                string;
   email:               string;
@@ -8,8 +7,8 @@ export interface IUser extends Document {
   role:                "user" | "admin";
   avatar:              string;
   provider:            "local" | "google" | "github";
-  resetPasswordToken?: string;   // ✅ was missing
-  resetPasswordExpiry?: Date;    // ✅ was missing
+  resetPasswordToken?: string;  
+  resetPasswordExpiry?: Date;   
 }
 
 const userSchema = new mongoose.Schema<IUser>(

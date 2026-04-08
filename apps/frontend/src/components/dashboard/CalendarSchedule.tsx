@@ -15,27 +15,27 @@ type CalEvent = {
 };
 
 const eventColors: Record<EventType, string> = {
-  meeting:     "bg-blue-100 text-blue-700",
-  deadline:    "bg-red-100 text-red-700",
-  payment:     "bg-green-100 text-green-700",
+  meeting: "bg-blue-100 text-blue-700",
+  deadline: "bg-red-100 text-red-700",
+  payment: "bg-green-100 text-green-700",
   maintenance: "bg-yellow-100 text-yellow-700",
 };
 
 const mockEvents: CalEvent[] = [
-  { date: 3,  title: "Team standup",        type: "meeting" },
-  { date: 7,  title: "Q2 report deadline",  type: "deadline" },
-  { date: 10, title: "Payroll processed",   type: "payment" },
-  { date: 14, title: "Product review",      type: "meeting" },
-  { date: 18, title: "Server maintenance",  type: "maintenance" },
-  { date: 21, title: "Invoice due",         type: "payment" },
-  { date: 25, title: "Sprint planning",     type: "meeting" },
-  { date: 28, title: "Deploy deadline",     type: "deadline" },
+  { date: 3, title: "Team standup", type: "meeting" },
+  { date: 7, title: "Q2 report deadline", type: "deadline" },
+  { date: 10, title: "Payroll processed", type: "payment" },
+  { date: 14, title: "Product review", type: "meeting" },
+  { date: 18, title: "Server maintenance", type: "maintenance" },
+  { date: 21, title: "Invoice due", type: "payment" },
+  { date: 25, title: "Sprint planning", type: "meeting" },
+  { date: 28, title: "Deploy deadline", type: "deadline" },
 ];
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MONTHS = [
-  "January","February","March","April","May","June",
-  "July","August","September","October","November","December",
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
 ];
 
 export default function CalendarSchedule() {
@@ -43,10 +43,10 @@ export default function CalendarSchedule() {
   const [current, setCurrent] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [selected, setSelected] = useState<number | null>(today.getDate());
 
-  const year  = current.getFullYear();
+  const year = current.getFullYear();
   const month = current.getMonth();
 
-  const firstDay    = new Date(year, month, 1).getDay();
+  const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const isToday = (d: number) =>
@@ -126,9 +126,8 @@ export default function CalendarSchedule() {
                 {day}
                 {hasEvent && (
                   <span
-                    className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full ${
-                      isSelected ? "bg-primary-foreground" : "bg-primary"
-                    }`}
+                    className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full ${isSelected ? "bg-primary-foreground" : "bg-primary"
+                      }`}
                   />
                 )}
               </button>

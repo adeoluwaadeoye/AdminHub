@@ -101,11 +101,10 @@ export default function TopChannels() {
 
                 {/* TREND */}
                 <div className="col-span-2 flex justify-end">
-                  <Badge className={`text-[10px] px-2 py-0 ${
-                    c.trend === "up"
+                  <Badge className={`text-[10px] px-2 py-0 ${c.trend === "up"
                       ? "bg-green-100 text-green-700"
                       : "bg-red-100 text-red-600"
-                  }`}>
+                    }`}>
                     {c.trendValue}
                   </Badge>
                 </div>

@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AdminHub — Frontend
 
-## Getting Started
+Next.js App Router frontend for the AdminHub task management platform.
 
-First, run the development server:
+## Stack
+- Next.js 15 App Router
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Zustand
+- Recharts
+- Leaflet.js
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create `.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev     # development — http://localhost:3000
+npm run build   # production build
+npm start       # run production build
+```
 
-## Learn More
+## Pages
 
-To learn more about Next.js, take a look at the following resources:
+| Route | Description | Protected |
+|-------|-------------|-----------|
+| `/` | Landing page | ❌ |
+| `/auth/login` | Login | ❌ |
+| `/auth/register` | Register | ❌ |
+| `/auth/forgot-password` | Forgot password | ❌ |
+| `/auth/reset-password` | Reset password | ❌ |
+| `/dashboard` | Overview | ✅ |
+| `/dashboard/tasks` | Task manager | ✅ |
+| `/dashboard/analytics` | Analytics | ✅ |
+| `/dashboard/profile` | Profile settings | ✅ |
+| `/dashboard/admin` | Admin panel | 👑 |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Folder Structure
+src/
+├── app/
+│   ├── (auth)/             # Auth pages
+│   ├── dashboard/          # Dashboard pages
+│   └── page.tsx            # Landing page
+├── components/
+│   ├── auth/               # Login and register forms
+│   ├── dashboard/          # Dashboard widgets
+│   │   ├── charts/         # Chart components
+│   │   ├── skeletons/      # Loading skeletons
+│   │   └── tables/         # Data tables
+│   ├── landing/            # Landing page sections
+│   │   ├── Hero.tsx
+│   │   ├── Features.tsx
+│   │   ├── HowItWorks.tsx
+│   │   ├── TaskDemo.tsx
+│   │   └── CTA.tsx
+│   ├── layout/             # Header, footer, sidebar
+│   └── providers/          # Theme and auth providers
+├── lib/
+│   ├── api.ts              # Base fetch wrapper
+│   └── taskApi.ts          # Task API methods
+├── store/
+│   └── authStore.ts        # Zustand auth store
+├── types/
+│   ├── auth.ts             # Auth types
+│   └── task.ts             # Task types
+└── middleware.ts            # Route protection
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [root README](../../README.md) for full documentation.

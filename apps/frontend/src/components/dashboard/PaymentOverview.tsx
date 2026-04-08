@@ -33,18 +33,18 @@ type Payment = {
 };
 
 const payments: Payment[] = [
-  { id: "TXN001", name: "Alice Johnson",  amount: 120,  method: "Visa",       status: "completed", date: "Apr 1" },
-  { id: "TXN002", name: "Bob Smith",      amount: 75,   method: "Mastercard", status: "pending",   date: "Apr 2" },
-  { id: "TXN003", name: "Carol White",    amount: 340,  method: "PayPal",     status: "failed",    date: "Apr 3" },
-  { id: "TXN004", name: "David Brown",    amount: 200,  method: "Visa",       status: "completed", date: "Apr 4" },
-  { id: "TXN005", name: "Eva Green",      amount: 89,   method: "Stripe",     status: "completed", date: "Apr 5" },
-  { id: "TXN006", name: "Frank Lee",      amount: 450,  method: "Mastercard", status: "pending",   date: "Apr 6" },
+  { id: "TXN001", name: "Alice Johnson", amount: 120, method: "Visa", status: "completed", date: "Apr 1" },
+  { id: "TXN002", name: "Bob Smith", amount: 75, method: "Mastercard", status: "pending", date: "Apr 2" },
+  { id: "TXN003", name: "Carol White", amount: 340, method: "PayPal", status: "failed", date: "Apr 3" },
+  { id: "TXN004", name: "David Brown", amount: 200, method: "Visa", status: "completed", date: "Apr 4" },
+  { id: "TXN005", name: "Eva Green", amount: 89, method: "Stripe", status: "completed", date: "Apr 5" },
+  { id: "TXN006", name: "Frank Lee", amount: 450, method: "Mastercard", status: "pending", date: "Apr 6" },
 ];
 
 const chartData = [
-  { month: "Nov", amount: 8400  },
+  { month: "Nov", amount: 8400 },
   { month: "Dec", amount: 12000 },
-  { month: "Jan", amount: 9800  },
+  { month: "Jan", amount: 9800 },
   { month: "Feb", amount: 14200 },
   { month: "Mar", amount: 11600 },
   { month: "Apr", amount: 16800 },
@@ -52,8 +52,8 @@ const chartData = [
 
 const statusConfig: Record<PayStatus, { icon: React.ReactNode; style: string; label: string }> = {
   completed: { icon: <CheckCircle2 className="h-3.5 w-3.5" />, style: "bg-green-100 text-green-700", label: "Completed" },
-  failed:    { icon: <XCircle      className="h-3.5 w-3.5" />, style: "bg-red-100 text-red-600",     label: "Failed"    },
-  pending:   { icon: <Clock        className="h-3.5 w-3.5" />, style: "bg-yellow-100 text-yellow-700", label: "Pending" },
+  failed: { icon: <XCircle className="h-3.5 w-3.5" />, style: "bg-red-100 text-red-600", label: "Failed" },
+  pending: { icon: <Clock className="h-3.5 w-3.5" />, style: "bg-yellow-100 text-yellow-700", label: "Pending" },
 };
 
 type Filter = "all" | PayStatus;
@@ -70,8 +70,8 @@ export default function PaymentOverview() {
 
   const counts = {
     completed: payments.filter((p) => p.status === "completed").length,
-    pending:   payments.filter((p) => p.status === "pending").length,
-    failed:    payments.filter((p) => p.status === "failed").length,
+    pending: payments.filter((p) => p.status === "pending").length,
+    failed: payments.filter((p) => p.status === "failed").length,
   };
 
   return (

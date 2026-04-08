@@ -23,7 +23,7 @@ export const authenticate = (
   }
 };
 
-// ✅ NEW — admin guard
+// NEW — admin guard
 export const requireAdmin = (
   req: AuthRequest, res: Response, next: NextFunction
 ) => {

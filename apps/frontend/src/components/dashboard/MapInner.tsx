@@ -59,10 +59,10 @@ export default function MapInner({ regions, active, onSelect }: Props) {
           center={[r.lat, r.lng]}
           radius={Math.max(8, Math.sqrt(r.users / 100))} // ✅ size = user count
           pathOptions={{
-            fillColor:   active?.id === r.id ? "#4f46e5" : "#6366f1",
+            fillColor: active?.id === r.id ? "#4f46e5" : "#6366f1",
             fillOpacity: active?.id === r.id ? 0.95 : 0.75,
-            color:       "#ffffff",
-            weight:      2,
+            color: "#ffffff",
+            weight: 2,
           }}
           eventHandlers={{
             click: () => onSelect(r.id === active?.id ? null : r),
@@ -77,9 +77,8 @@ export default function MapInner({ regions, active, onSelect }: Props) {
               <p className="text-xs text-gray-500">
                 ${r.revenue.toLocaleString()} revenue
               </p>
-              <span className={`text-xs font-medium ${
-                r.positive ? "text-green-600" : "text-red-500"
-              }`}>
+              <span className={`text-xs font-medium ${r.positive ? "text-green-600" : "text-red-500"
+                }`}>
                 {r.growth}
               </span>
             </div>

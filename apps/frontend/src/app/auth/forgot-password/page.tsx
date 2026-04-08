@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
         body:   JSON.stringify({ email }),
       });
       setSent(true);
-    } catch (err: unknown) { // ✅ fixed
+    } catch (err: unknown) { 
       const message = err instanceof Error ? err.message : "Something went wrong.";
       toast.error(message);
     } finally {

@@ -33,11 +33,10 @@ export function ThemeToggleSwitch() {
           className={`absolute size-9.5 rounded-full border border-gray-200 bg-gray-500 dark:border-none dark:bg-dark-2
           will-change-transform
           transition-transform duration-300 ease-out
-          ${
-            currentTheme === "dark"
+          ${currentTheme === "dark"
               ? "translate-x-12 border-none bg-dark-2 dark:group-hover:bg-dark-3"
               : ""
-          }`}
+            }`}
         />
 
         {/* ICONS */}
@@ -47,9 +46,8 @@ export function ThemeToggleSwitch() {
         ].map(({ name, Icon }) => (
           <span
             key={name}
-            className={`relative grid size-9.5 place-items-center rounded-full transition-colors duration-300 ${
-              name === "dark" ? "dark:text-white" : ""
-            }`}
+            className={`relative grid size-9.5 place-items-center rounded-full transition-colors duration-300 ${name === "dark" ? "dark:text-white" : ""
+              }`}
           >
             <Icon />
           </span>

@@ -30,15 +30,15 @@ type SidebarSheetProps = {
 };
 
 type MenuItem = {
-  label:      string;
-  href?:      string;
-  icon:       React.ReactNode;
-  disabled?:  boolean;
+  label: string;
+  href?: string;
+  icon: React.ReactNode;
+  disabled?: boolean;
   adminOnly?: boolean;
-  children?:  {
-    label:      string;
-    href:       string;
-    disabled?:  boolean;
+  children?: {
+    label: string;
+    href: string;
+    disabled?: boolean;
     adminOnly?: boolean;
   }[];
 };
@@ -46,66 +46,66 @@ type MenuItem = {
 const menu: MenuItem[] = [
   {
     label: "Home",
-    href:  "/",
-    icon:  <FiHome />,
+    href: "/",
+    icon: <FiHome />,
   },
   {
     label: "Dashboard",
-    icon:  <FiBarChart2 />,
+    icon: <FiBarChart2 />,
     children: [
-      { label: "Overview",  href: "/dashboard"           },
+      { label: "Overview", href: "/dashboard" },
       { label: "Analytics", href: "/dashboard/analytics" },
     ],
   },
   {
     label: "Tasks",
-    icon:  <FiCheckSquare />,
+    icon: <FiCheckSquare />,
     children: [
-      { label: "All Tasks", href: "/dashboard/tasks"                      },
-      { label: "Kanban",    href: "/dashboard/tasks/kanban", disabled: true },
+      { label: "All Tasks", href: "/dashboard/tasks" },
+      { label: "Kanban", href: "/dashboard/tasks/kanban", disabled: true },
     ],
   },
   {
     label: "Team",
-    icon:  <FiUsers />,
+    icon: <FiUsers />,
     children: [
       { label: "Members", href: "/dashboard/members", disabled: false },
-      { label: "Roles",   href: "/team/",   disabled: true },
+      { label: "Roles", href: "/team/", disabled: true },
     ],
   },
   {
     label: "Account",
-    icon:  <FiUser />,
+    icon: <FiUser />,
     children: [
-      { label: "Profile",  href: "/dashboard/profile"                   },
-      { label: "Settings", href: "/dashboard/settings", disabled: true  },
+      { label: "Profile", href: "/dashboard/profile" },
+      { label: "Settings", href: "/dashboard/settings", disabled: true },
     ],
   },
   {
-    label:     "Admin",
-    icon:      <FiShield />,
+    label: "Admin",
+    icon: <FiShield />,
     adminOnly: false,
     children: [
-      { label: "Manage Users",   href: "/dashboard/admin"       },
+      { label: "Manage Users", href: "/dashboard/admin" },
       { label: "Platform Stats", href: "/dashboard/admin#stats" },
     ],
   },
   {
     label: "Settings",
-    icon:  <FiSettings />,
+    icon: <FiSettings />,
     children: [
-      { label: "General",  href: "/settings/general",  disabled: true },
+      { label: "General", href: "/settings/general", disabled: true },
       { label: "Security", href: "/settings/security", disabled: true },
     ],
   },
 ];
 
 export default function SidebarSheet({ children }: SidebarSheetProps) {
-  const user    = useAuthStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
   const isAdmin = (user as { role?: string } | null)?.role === "admin";
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [open,      setOpen]      = useState(false); // ✅ controlled open state
+  const [open, setOpen] = useState(false); // ✅ controlled open state
 
   // ✅ lock body scroll when sidebar is open
   useEffect(() => {
@@ -191,7 +191,7 @@ export default function SidebarSheet({ children }: SidebarSheetProps) {
             {/* MENU */}
             <div className="flex-1 overflow-y-auto space-y-1">
               {visibleMenu.map((item, index) => {
-                const isOpen   = openIndex === index;
+                const isOpen = openIndex === index;
                 const subItems = item.children ?? [];
 
                 return (
@@ -200,11 +200,10 @@ export default function SidebarSheet({ children }: SidebarSheetProps) {
                     {/* MAIN ROW */}
                     <div
                       onClick={() => !item.disabled && toggle(index)}
-                      className={`flex items-center justify-between px-3 py-3 rounded-lg transition-colors ${
-                        item.disabled
+                      className={`flex items-center justify-between px-3 py-3 rounded-lg transition-colors ${item.disabled
                           ? "opacity-40 cursor-not-allowed"
                           : "cursor-pointer hover:bg-muted/60"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3 text-sm font-medium">
                         <span className="text-xl text-muted-foreground">
@@ -250,11 +249,10 @@ export default function SidebarSheet({ children }: SidebarSheetProps) {
                           {subItems.map((child) => (
                             <div
                               key={child.label}
-                              className={`text-sm py-2 px-3 rounded-lg transition-colors ${
-                                child.disabled
+                              className={`text-sm py-2 px-3 rounded-lg transition-colors ${child.disabled
                                   ? "opacity-40 cursor-not-allowed text-muted-foreground"
                                   : "hover:bg-muted/60 cursor-pointer"
-                              }`}
+                                }`}
                             >
                               {child.disabled ? (
                                 <span className="flex items-center justify-between">

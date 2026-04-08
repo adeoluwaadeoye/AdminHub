@@ -23,11 +23,11 @@ const data = [
   { day: "Sun", profit: 3100 },
 ];
 
-const total   = data.reduce((sum, d) => sum + d.profit, 0);
+const total = data.reduce((sum, d) => sum + d.profit, 0);
 const lastWeek = 11200;
-const diff    = total - lastWeek;
-const isUp    = diff >= 0;
-const pct     = ((Math.abs(diff) / lastWeek) * 100).toFixed(1);
+const diff = total - lastWeek;
+const isUp = diff >= 0;
+const pct = ((Math.abs(diff) / lastWeek) * 100).toFixed(1);
 
 export default function WeeklyProfit() {
   return (
@@ -53,11 +53,10 @@ export default function WeeklyProfit() {
           <p className="text-3xl font-bold">
             ${total.toLocaleString()}
           </p>
-          <Badge className={`mb-1 gap-1 text-xs ${
-            isUp
+          <Badge className={`mb-1 gap-1 text-xs ${isUp
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-600"
-          }`}>
+            }`}>
             {isUp
               ? <TrendingUp className="h-3 w-3" />
               : <TrendingDown className="h-3 w-3" />
@@ -71,7 +70,7 @@ export default function WeeklyProfit() {
           <AreaChart data={data}>
             <defs>
               <linearGradient id="profitGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#6366f1" stopOpacity={0.25} />
+                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.25} />
                 <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
               </linearGradient>
             </defs>

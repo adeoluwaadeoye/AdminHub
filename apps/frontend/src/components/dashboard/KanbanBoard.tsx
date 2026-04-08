@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 type Priority = "low" | "medium" | "high";
-type Column   = "todo" | "inprogress" | "done";
+type Column = "todo" | "inprogress" | "done";
 
 type Task = {
   id: number;
@@ -24,30 +24,30 @@ type Task = {
 type Board = Record<Column, Task[]>;
 
 const priorityStyles: Record<Priority, string> = {
-  low:    "bg-gray-100 text-gray-600",
+  low: "bg-gray-100 text-gray-600",
   medium: "bg-yellow-100 text-yellow-700",
-  high:   "bg-red-100 text-red-600",
+  high: "bg-red-100 text-red-600",
 };
 
 const columnMeta: Record<Column, { label: string; color: string }> = {
-  todo:       { label: "To Do",       color: "bg-gray-100 text-gray-700" },
+  todo: { label: "To Do", color: "bg-gray-100 text-gray-700" },
   inprogress: { label: "In Progress", color: "bg-blue-100 text-blue-700" },
-  done:       { label: "Done",        color: "bg-green-100 text-green-700" },
+  done: { label: "Done", color: "bg-green-100 text-green-700" },
 };
 
 const initialBoard: Board = {
   todo: [
-    { id: 1, title: "Design login page",       priority: "high" },
+    { id: 1, title: "Design login page", priority: "high" },
     { id: 2, title: "Write API documentation", priority: "medium" },
-    { id: 3, title: "Set up CI/CD pipeline",   priority: "low" },
+    { id: 3, title: "Set up CI/CD pipeline", priority: "low" },
   ],
   inprogress: [
-    { id: 4, title: "Build dashboard layout",  priority: "high" },
-    { id: 5, title: "Integrate Recharts",      priority: "medium" },
+    { id: 4, title: "Build dashboard layout", priority: "high" },
+    { id: 5, title: "Integrate Recharts", priority: "medium" },
   ],
   done: [
-    { id: 6, title: "Set up Next.js project",  priority: "low" },
-    { id: 7, title: "Configure Tailwind CSS",  priority: "low" },
+    { id: 6, title: "Set up Next.js project", priority: "low" },
+    { id: 7, title: "Configure Tailwind CSS", priority: "low" },
   ],
 };
 

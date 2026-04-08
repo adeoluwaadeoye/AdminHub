@@ -70,7 +70,7 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* ✅ quick link to tasks */}
+        {/* quick link to tasks */}
     <Link href="/dashboard/tasks">
       <Button size="sm" className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
         <CheckSquare className="h-4 w-4" />

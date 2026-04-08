@@ -37,10 +37,10 @@ const initialNotifs: Notification[] = [
 
 const typeConfig: Record<NotifType, { icon: React.ReactNode; color: string }> = {
   security: { icon: <ShieldCheck className="h-4 w-4" />, color: "bg-blue-100 text-blue-600" },
-  payment:  { icon: <CreditCard className="h-4 w-4" />,  color: "bg-green-100 text-green-600" },
-  user:     { icon: <UserPlus className="h-4 w-4" />,    color: "bg-purple-100 text-purple-600" },
-  warning:  { icon: <AlertTriangle className="h-4 w-4" />, color: "bg-yellow-100 text-yellow-700" },
-  info:     { icon: <Info className="h-4 w-4" />,        color: "bg-gray-100 text-gray-600" },
+  payment: { icon: <CreditCard className="h-4 w-4" />, color: "bg-green-100 text-green-600" },
+  user: { icon: <UserPlus className="h-4 w-4" />, color: "bg-purple-100 text-purple-600" },
+  warning: { icon: <AlertTriangle className="h-4 w-4" />, color: "bg-yellow-100 text-yellow-700" },
+  info: { icon: <Info className="h-4 w-4" />, color: "bg-gray-100 text-gray-600" },
 };
 
 type Filter = "all" | "unread";
@@ -122,11 +122,10 @@ export default function NotificationsPanel() {
                 <div
                   key={n.id}
                   onClick={() => markRead(n.id)}
-                  className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
-                    n.read
+                  className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-colors ${n.read
                       ? "bg-transparent hover:bg-muted/40"
                       : "bg-muted/60 hover:bg-muted"
-                  }`}
+                    }`}
                 >
                   {/* ICON */}
                   <div

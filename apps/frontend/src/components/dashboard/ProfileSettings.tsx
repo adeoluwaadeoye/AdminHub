@@ -26,18 +26,18 @@ export default function ProfileSettings() {
     name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
   const [profile, setProfile] = useState({
-    name:  user?.name  || "",
+    name: user?.name || "",
     email: user?.email || "",
   });
 
   const [passwords, setPasswords] = useState({
-    current:  "",
-    next:     "",
-    confirm:  "",
+    current: "",
+    next: "",
+    confirm: "",
   });
 
   const [showPass, setShowPass] = useState(false);
-  const [savingProfile,  setSavingProfile]  = useState(false);
+  const [savingProfile, setSavingProfile] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
 
   const handleProfileSave = async () => {
@@ -151,8 +151,8 @@ export default function ProfileSettings() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { id: "cur",  label: "Current Password", key: "current" },
-              { id: "new",  label: "New Password",     key: "next" },
+              { id: "cur", label: "Current Password", key: "current" },
+              { id: "new", label: "New Password", key: "next" },
               { id: "conf", label: "Confirm Password", key: "confirm" },
             ].map(({ id, label, key }) => (
               <div key={id} className="space-y-2">

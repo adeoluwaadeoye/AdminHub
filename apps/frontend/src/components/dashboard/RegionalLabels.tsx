@@ -14,12 +14,12 @@ type Region = {
 };
 
 const regions: Region[] = [
-  { country: "United States", flag: "🇺🇸", users: 8400,  revenue: 52000, share: 34, color: "#6366f1" },
-  { country: "United Kingdom",flag: "🇬🇧", users: 4200,  revenue: 28000, share: 18, color: "#f59e0b" },
-  { country: "Nigeria",       flag: "🇳🇬", users: 3100,  revenue: 14000, share: 13, color: "#10b981" },
-  { country: "Germany",       flag: "🇩🇪", users: 2800,  revenue: 19000, share: 11, color: "#3b82f6" },
-  { country: "India",         flag: "🇮🇳", users: 5600,  revenue: 21000, share: 22, color: "#ec4899" },
-  { country: "Australia",     flag: "🇦🇺", users: 1200,  revenue: 8500,  share: 5,  color: "#14b8a6" },
+  { country: "United States", flag: "🇺🇸", users: 8400, revenue: 52000, share: 34, color: "#6366f1" },
+  { country: "United Kingdom", flag: "🇬🇧", users: 4200, revenue: 28000, share: 18, color: "#f59e0b" },
+  { country: "Nigeria", flag: "🇳🇬", users: 3100, revenue: 14000, share: 13, color: "#10b981" },
+  { country: "Germany", flag: "🇩🇪", users: 2800, revenue: 19000, share: 11, color: "#3b82f6" },
+  { country: "India", flag: "🇮🇳", users: 5600, revenue: 21000, share: 22, color: "#ec4899" },
+  { country: "Australia", flag: "🇦🇺", users: 1200, revenue: 8500, share: 5, color: "#14b8a6" },
 ];
 
 export default function RegionalLabels() {

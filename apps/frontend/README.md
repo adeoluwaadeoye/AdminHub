@@ -44,36 +44,6 @@ npm start       # run production build
 | `/dashboard/profile` | Profile settings | ✅ |
 | `/dashboard/admin` | Admin panel | 👑 |
 
-## Folder Structure
-src/
-├── app/
-│   ├── (auth)/             # Auth pages
-│   ├── dashboard/          # Dashboard pages
-│   └── page.tsx            # Landing page
-├── components/
-│   ├── auth/               # Login and register forms
-│   ├── dashboard/          # Dashboard widgets
-│   │   ├── charts/         # Chart components
-│   │   ├── skeletons/      # Loading skeletons
-│   │   └── tables/         # Data tables
-│   ├── landing/            # Landing page sections
-│   │   ├── Hero.tsx
-│   │   ├── Features.tsx
-│   │   ├── HowItWorks.tsx
-│   │   ├── TaskDemo.tsx
-│   │   └── CTA.tsx
-│   ├── layout/             # Header, footer, sidebar
-│   └── providers/          # Theme and auth providers
-├── lib/
-│   ├── api.ts              # Base fetch wrapper
-│   └── taskApi.ts          # Task API methods
-├── store/
-│   └── authStore.ts        # Zustand auth store
-├── types/
-│   ├── auth.ts             # Auth types
-│   └── task.ts             # Task types
-└── middleware.ts            # Route protection
-
 ---
 
 See [root README](../../README.md) for full documentation.

@@ -3,75 +3,64 @@ import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
-
-import authRoutes from "./modules/auth/auth.routes";
-import taskRoutes from "./modules/tasks/task.routes";
-import healthRoutes from "./routes/health.routes";
-
-import { errorHandler } from "./middlewares/error.middleware";
-
-import adminRoutes from "./modules/admin/admin.routes";
 import path from "path";
-
 import passport from "./config/passport";
 
+import authRoutes  from "./modules/auth/auth.routes";
+import taskRoutes  from "./modules/tasks/task.routes";
+import adminRoutes from "./modules/admin/admin.routes";
+import healthRoutes from "./routes/health.routes";
+import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 
-/**
- * 🔐 Security headers
- */
+// ── SECURITY ───────────────────────────────────────────────
 app.use(helmet());
 
-/**
- * 🌐 CORS (required for cookies)
- */
+// ── CORS ───────────────────────────────────────────────────
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.FRONTEND_URL || "",
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
 
-/**
- * 📦 Body + cookies
- */
+// ── BODY + COOKIES ─────────────────────────────────────────
 app.use(express.json());
 app.use(cookieParser());
 
-/**
- * 🚦 Rate limiting
- */
+// ── PASSPORT — must be before routes ──────────────────────
+app.use(passport.initialize());
+
+// ── RATE LIMITING ──────────────────────────────────────────
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max:      100,
   })
 );
 
-/**
- * 📍 Routes
- */
-app.use("/api/auth", authRoutes);
-app.use("/api/tasks", taskRoutes);
-app.use("/health", healthRoutes);
-
-/**
- * ❌ Error handler MUST be last
- */
-app.use(errorHandler);
-
-// existing routes...
-app.use("/api/auth",  authRoutes);
-app.use("/api/tasks", taskRoutes);
-
-//NEW
-app.use("/api/admin", adminRoutes);
-
-//serve uploaded avatars as static files
+// ── STATIC FILES ───────────────────────────────────────────
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-app.use(passport.initialize());
+// ── ROUTES ─────────────────────────────────────────────────
+app.use("/api/auth",   authRoutes);
+app.use("/api/tasks",  taskRoutes);
+app.use("/api/admin",  adminRoutes);
+app.use("/health",     healthRoutes);
 
+// ── ERROR HANDLER — must be last ───────────────────────────
+app.use(errorHandler);
 
 export default app;

@@ -54,7 +54,7 @@ export default function RegionalLabels() {
           {regions.map((r) => (
             <div key={r.country} className="flex items-center gap-1.5">
               <span
-                className="h-2.5 w-2.5 rounded-full flex-shrink-0"
+                className="h-2.5 w-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: r.color }}
               />
               <span className="text-xs text-muted-foreground">{r.country}</span>

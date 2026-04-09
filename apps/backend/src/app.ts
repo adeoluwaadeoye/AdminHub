@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config(); // ✅ must be first — before passport import
+
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
@@ -5,9 +8,9 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import passport from "./config/passport";
-import authRoutes  from "./modules/auth/auth.routes";
-import taskRoutes  from "./modules/tasks/task.routes";
-import adminRoutes from "./modules/admin/admin.routes";
+import authRoutes   from "./modules/auth/auth.routes";
+import taskRoutes   from "./modules/tasks/task.routes";
+import adminRoutes  from "./modules/admin/admin.routes";
 import healthRoutes from "./routes/health.routes";
 import { errorHandler } from "./middlewares/error.middleware";
 

@@ -8,9 +8,9 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import passport from "./config/passport";
-import authRoutes   from "./modules/auth/auth.routes";
-import taskRoutes   from "./modules/tasks/task.routes";
-import adminRoutes  from "./modules/admin/admin.routes";
+import authRoutes from "./modules/auth/auth.routes";
+import taskRoutes from "./modules/tasks/task.routes";
+import adminRoutes from "./modules/admin/admin.routes";
 import healthRoutes from "./routes/health.routes";
 import { errorHandler } from "./middlewares/error.middleware";
 
@@ -21,8 +21,9 @@ app.use(helmet());
 
 // ── CORS ───────────────────────────────────────────────────
 const allowedOrigins = [
-  "http://localhost:3000",
-  process.env.FRONTEND_URL || "",
+  "http://localhost:3000",              //local dev still works
+  "https://adminhub-sigma.vercel.app", //production works
+  process.env.FRONTEND_URL || "",      //extra fallback
 ].filter(Boolean);
 
 app.use(
@@ -49,7 +50,7 @@ app.use(passport.initialize());
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max:      100,
+    max: 100,
   })
 );
 
@@ -57,10 +58,10 @@ app.use(
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // ── ROUTES ─────────────────────────────────────────────────
-app.use("/api/auth",   authRoutes);
-app.use("/api/tasks",  taskRoutes);
-app.use("/api/admin",  adminRoutes);
-app.use("/health",     healthRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/health", healthRoutes);
 
 // ── ERROR HANDLER — must be last ───────────────────────────
 app.use(errorHandler);

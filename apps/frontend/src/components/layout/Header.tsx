@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { Input } from "@/components/ui/input";
@@ -32,32 +31,32 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 type Notif = {
-  id: number;
+  id:    number;
   title: string;
-  desc: string;
-  time: string;
-  read: boolean;
+  desc:  string;
+  time:  string;
+  read:  boolean;
   color: string;
 };
 
 const mockNotifs: Notif[] = [
-  { id: 1, title: "New user registered", desc: "Alice Johnson just signed up", time: "2m ago", read: false, color: "bg-blue-500" },
-  { id: 2, title: "Payment received", desc: "Bob Smith paid $120", time: "15m ago", read: false, color: "bg-green-500" },
-  { id: 3, title: "Server warning", desc: "CPU usage exceeded 85%", time: "1h ago", read: false, color: "bg-yellow-500" },
-  { id: 4, title: "New login detected", desc: "Sign-in from Lagos, NG", time: "2h ago", read: true, color: "bg-indigo-500" },
-  { id: 5, title: "Scheduled maintenance", desc: "Downtime Sunday 2am–4am", time: "3h ago", read: true, color: "bg-gray-400" },
+  { id: 1, title: "New user registered",   desc: "Alice Johnson just signed up",  time: "2m ago",  read: false, color: "bg-blue-500"   },
+  { id: 2, title: "Payment received",      desc: "Bob Smith paid $120",           time: "15m ago", read: false, color: "bg-green-500"  },
+  { id: 3, title: "Server warning",        desc: "CPU usage exceeded 85%",        time: "1h ago",  read: false, color: "bg-yellow-500" },
+  { id: 4, title: "New login detected",    desc: "Sign-in from Lagos, NG",        time: "2h ago",  read: true,  color: "bg-indigo-500" },
+  { id: 5, title: "Scheduled maintenance", desc: "Downtime Sunday 2am–4am",       time: "3h ago",  read: true,  color: "bg-gray-400"   },
 ];
 
 export default function Header() {
-  const router = useRouter();
-  const user = useAuthStore((s) => s.user);
+  const router      = useRouter();
+  const user        = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
-  const logout = useAuthStore((s) => s.logout);
+  const logout      = useAuthStore((s) => s.logout);
 
-  const [notifs, setNotifs] = useState<Notif[]>(mockNotifs);
-  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifs,     setNotifs]     = useState<Notif[]>(mockNotifs);
+  const [notifOpen,  setNotifOpen]  = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query,      setQuery]      = useState("");
 
   const unread = notifs.filter((n) => !n.read).length;
 
@@ -66,6 +65,10 @@ export default function Header() {
 
   const handleLogout = async () => {
     await logout();
+    // ✅ clear localStorage token on logout
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
     toast.success("Signed out successfully.");
     router.replace("/");
   };
@@ -82,10 +85,10 @@ export default function Header() {
 
   return (
     <header className="fixed top-3 left-0 right-0 z-50 flex justify-center px-3">
-      <div className="w-full max-w-7xl  rounded-2xl border bg-background/95 backdrop-blur-sm shadow-sm  [@media(max-width:325px)]:w-fit">
+      <div className="w-full max-w-7xl rounded-2xl border bg-background/95 backdrop-blur-sm shadow-sm [@media(max-width:325px)]:w-fit">
         <div className="flex h-16 items-center justify-between px-3 md:px-6">
 
-          {/* ===================== LEFT ===================== */}
+          {/* ── LEFT ──────────────────────────────────────── */}
           <div className="flex items-center gap-2 md:gap-5">
 
             {/* SIDEBAR TRIGGER */}
@@ -108,7 +111,7 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* DESKTOP SEARCH — hidden on mobile */}
+            {/* DESKTOP SEARCH */}
             <div className="hidden lg:flex items-center">
               <div className="relative w-48 lg:w-64">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
@@ -130,17 +133,16 @@ export default function Header() {
             </div>
           </div>
 
-          {/* ===================== RIGHT ===================== */}
-          {/* gap-3 on mobile, gap-4 on tablet, gap-5 on desktop */}
+          {/* ── RIGHT ─────────────────────────────────────── */}
           <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
 
-            {/* MOBILE SEARCH TOGGLE — hidden on md+ */}
+            {/* MOBILE SEARCH TOGGLE */}
             <button
               onClick={() => setSearchOpen((p) => !p)}
               className="lg:hidden h-9 w-9 flex items-center justify-center rounded-lg hover:bg-muted transition-colors shrink-0 mr-12"
             >
               {searchOpen
-                ? <X className="h-5 w-5 text-muted-foreground" />
+                ? <X      className="h-5 w-5 text-muted-foreground" />
                 : <Search className="h-5 w-5 text-muted-foreground" />
               }
             </button>
@@ -150,7 +152,7 @@ export default function Header() {
               <ThemeToggleSwitch />
             </div>
 
-            {/* NOTIFICATIONS — only when logged in */}
+            {/* NOTIFICATIONS */}
             {user && (
               <DropdownMenu open={notifOpen} onOpenChange={setNotifOpen}>
                 <DropdownMenuTrigger asChild>
@@ -199,8 +201,9 @@ export default function Header() {
                       notifs.map((n) => (
                         <div
                           key={n.id}
-                          className={`flex items-start gap-3 px-4 py-3 hover:bg-muted/40 transition-colors ${!n.read ? "bg-indigo-50/50 dark:bg-indigo-950/20" : ""
-                            }`}
+                          className={`flex items-start gap-3 px-4 py-3 hover:bg-muted/40 transition-colors ${
+                            !n.read ? "bg-indigo-50/50 dark:bg-indigo-950/20" : ""
+                          }`}
                         >
                           <span className={`mt-1.5 h-2 w-2 rounded-full shrink-0 ${n.color}`} />
                           <div className="flex-1 min-w-0">
@@ -235,7 +238,7 @@ export default function Header() {
               </DropdownMenu>
             )}
 
-            {/* DIVIDER — desktop only */}
+            {/* DIVIDER */}
             <div className="hidden md:block h-6 w-px bg-border shrink-0" />
 
             {/* PROFILE DROPDOWN */}
@@ -248,7 +251,6 @@ export default function Header() {
                     </AvatarFallback>
                   </Avatar>
 
-                  {/* NAME + ROLE — desktop only */}
                   {user && (
                     <div className="hidden md:flex flex-col items-start leading-none">
                       <p className="text-sm font-medium truncate max-w-20">
@@ -270,7 +272,7 @@ export default function Header() {
                     {/* USER CARD */}
                     <div className="flex items-center gap-3 rounded-lg bg-muted/40 px-3 py-2.5 mb-1">
                       <Avatar className="h-9 w-9 shrink-0">
-                        <AvatarFallback className="bg-indigo-100 text-indigo-700 text-sm font-semibold [@media(min-width:375px)]:mr-8">
+                        <AvatarFallback className="bg-indigo-100 text-indigo-700 text-sm font-semibold">
                           {getInitials(user.name)}
                         </AvatarFallback>
                       </Avatar>
@@ -337,7 +339,7 @@ export default function Header() {
           </div>
         </div>
 
-        {/* MOBILE SEARCH BAR — slides down when toggled */}
+        {/* MOBILE SEARCH BAR */}
         {searchOpen && (
           <div className="md:hidden border-t px-4 py-3">
             <div className="relative">

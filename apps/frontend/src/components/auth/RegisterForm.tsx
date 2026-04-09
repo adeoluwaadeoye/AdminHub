@@ -55,7 +55,8 @@ export default function RegisterForm() {
         password: form.password,
       });
       toast.success("Account created successfully!");
-      router.push("/dashboard");
+      // ✅ use replace so back button doesn't return to register
+      router.replace("/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Registration failed.";
       toast.error(message);
@@ -64,7 +65,6 @@ export default function RegisterForm() {
     }
   };
 
-  //shows loading state then redirects to backend OAuth route
   const handleOAuth = (provider: "google" | "github") => {
     setOauthLoading(provider);
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/${provider}`;
@@ -134,6 +134,7 @@ export default function RegisterForm() {
               <Label htmlFor="name">Full name</Label>
               <Input
                 id="name"
+                autoComplete="name"
                 placeholder="John Doe"
                 value={form.name}
                 onChange={(e) =>
@@ -148,6 +149,7 @@ export default function RegisterForm() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="you@example.com"
                 value={form.email}
                 onChange={(e) =>
@@ -163,6 +165,7 @@ export default function RegisterForm() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
                   placeholder="••••••••"
                   value={form.password}
                   onChange={(e) =>
@@ -185,6 +188,7 @@ export default function RegisterForm() {
               <Input
                 id="confirmPassword"
                 type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
                 placeholder="••••••••"
                 value={form.confirmPassword}
                 onChange={(e) =>

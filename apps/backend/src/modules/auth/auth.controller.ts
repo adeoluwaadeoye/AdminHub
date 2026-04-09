@@ -3,8 +3,6 @@ import { User } from "./auth.model";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-
-// ✅ import both email functions
 import { sendResetEmail, sendWelcomeEmail } from "../../lib/mailer";
 
 // ── HELPER ─────────────────────────────────────────────────
@@ -16,8 +14,25 @@ const generateToken = (user: any) => {
   );
 };
 
+// ✅ httpOnly cookie — secure, not readable by JS
+const cookieOptions = {
+  httpOnly: true,
+  secure:   process.env.NODE_ENV === "production",
+  sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
+    | "none" | "lax" | "strict",
+  maxAge: 24 * 60 * 60 * 1000,
+};
+
+// ✅ public cookie — readable by Next.js middleware for route protection
+const publicCookieOptions = {
+  httpOnly: false,
+  secure:   process.env.NODE_ENV === "production",
+  sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
+    | "none" | "lax" | "strict",
+  maxAge: 24 * 60 * 60 * 1000,
+};
+
 // ── REGISTER ───────────────────────────────────────────────
-// ✅ single register function — removed duplicate
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
@@ -29,22 +44,17 @@ export const register = async (req: Request, res: Response) => {
 
     const hashed = await bcrypt.hash(password, 10);
     const user   = await User.create({ name, email, password: hashed });
+    const token  = generateToken(user);
 
-    const token = generateToken(user);
+    // ✅ set both cookies
+    res.cookie("token",       token, cookieOptions);
+    res.cookie("auth-status", "1",   publicCookieOptions);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure:   process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge:   24 * 60 * 60 * 1000,
-    });
-
-    // ✅ fire and forget — don't let email failure break registration
     sendWelcomeEmail(email, name).catch((err: Error) =>
       console.error("Welcome email failed:", err.message)
     );
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully", token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -57,7 +67,6 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select("+password");
-
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -69,14 +78,11 @@ export const login = async (req: Request, res: Response) => {
 
     const token = generateToken(user);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure:   process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge:   24 * 60 * 60 * 1000,
-    });
+    // ✅ set both cookies
+    res.cookie("token",       token, cookieOptions);
+    res.cookie("auth-status", "1",   publicCookieOptions);
 
-    res.json({ message: "Login successful" });
+    res.json({ message: "Login successful", token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -85,7 +91,19 @@ export const login = async (req: Request, res: Response) => {
 
 // ── LOGOUT ─────────────────────────────────────────────────
 export const logout = (_req: Request, res: Response) => {
-  res.clearCookie("token");
+  // ✅ clear both cookies on logout
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure:   process.env.NODE_ENV === "production",
+    sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
+      | "none" | "lax" | "strict",
+  });
+  res.clearCookie("auth-status", {
+    httpOnly: false,
+    secure:   process.env.NODE_ENV === "production",
+    sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
+      | "none" | "lax" | "strict",
+  });
   res.json({ message: "Logged out successfully" });
 };
 
@@ -99,7 +117,6 @@ export const getMe = async (req: any, res: Response) => {
     }
 
     const user = await User.findById(userId).select("-password");
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -197,7 +214,6 @@ export const forgotPassword = async (req: Request, res: Response) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
 
-    // always 200 — don't reveal if email exists
     if (!user) {
       return res.json({
         message: "If that email exists, a reset link has been sent.",
@@ -205,7 +221,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
     }
 
     const token  = crypto.randomBytes(32).toString("hex");
-    const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const expiry = new Date(Date.now() + 60 * 60 * 1000);
 
     user.resetPasswordToken  = token;
     user.resetPasswordExpiry = expiry;

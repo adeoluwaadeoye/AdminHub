@@ -8,22 +8,25 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import passport from "./config/passport";
-import authRoutes from "./modules/auth/auth.routes";
-import taskRoutes from "./modules/tasks/task.routes";
-import adminRoutes from "./modules/admin/admin.routes";
+import authRoutes   from "./modules/auth/auth.routes";
+import taskRoutes   from "./modules/tasks/task.routes";
+import adminRoutes  from "./modules/admin/admin.routes";
 import healthRoutes from "./routes/health.routes";
 import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 
 // ── SECURITY ───────────────────────────────────────────────
-app.use(helmet());
+// ✅ disable helmet's crossOriginResourcePolicy so cookies work cross-domain
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
 
 // ── CORS ───────────────────────────────────────────────────
 const allowedOrigins = [
-  "http://localhost:3000",              //local dev still works
-  "https://adminhub-sigma.vercel.app", //production works
-  process.env.FRONTEND_URL || "",      //extra fallback
+  "http://localhost:3000",
+  "https://adminhub-sigma.vercel.app",
+  process.env.FRONTEND_URL || "",
 ].filter(Boolean);
 
 app.use(
@@ -35,7 +38,8 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true,
+    credentials:          true,
+    exposedHeaders:       ["set-cookie"], // ✅ expose cookie header
   })
 );
 
@@ -50,7 +54,7 @@ app.use(passport.initialize());
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max:      100,
   })
 );
 
@@ -58,10 +62,10 @@ app.use(
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // ── ROUTES ─────────────────────────────────────────────────
-app.use("/api/auth", authRoutes);
-app.use("/api/tasks", taskRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/health", healthRoutes);
+app.use("/api/auth",   authRoutes);
+app.use("/api/tasks",  taskRoutes);
+app.use("/api/admin",  adminRoutes);
+app.use("/health",     healthRoutes);
 
 // ── ERROR HANDLER — must be last ───────────────────────────
 app.use(errorHandler);

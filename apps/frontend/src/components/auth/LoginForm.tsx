@@ -37,7 +37,8 @@ export default function LoginForm() {
     try {
       await login(form.email, form.password);
       toast.success("Welcome back!");
-      router.push("/dashboard");
+      // ✅ use replace so back button doesn't return to login
+      router.replace("/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Login failed.";
       toast.error(message);
@@ -46,7 +47,6 @@ export default function LoginForm() {
     }
   };
 
-  // shows loading state then redirects to backend OAuth route
   const handleOAuth = (provider: "google" | "github") => {
     setOauthLoading(provider);
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/${provider}`;
@@ -117,6 +117,7 @@ export default function LoginForm() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="you@example.com"
                 value={form.email}
                 onChange={(e) =>
@@ -132,6 +133,7 @@ export default function LoginForm() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
                   placeholder="••••••••"
                   value={form.password}
                   onChange={(e) =>

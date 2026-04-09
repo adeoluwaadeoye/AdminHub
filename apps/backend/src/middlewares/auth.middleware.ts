@@ -6,10 +6,22 @@ export interface AuthRequest extends Request {
 }
 
 export const authenticate = (
-  req: AuthRequest, res: Response, next: NextFunction
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
 ) => {
-  const token = req.cookies?.token;
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  // ✅ check cookie first, then Authorization header (for cross-domain)
+  const cookieToken = req.cookies?.token;
+  const authHeader  = req.headers.authorization;
+  const headerToken = authHeader?.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : null;
+
+  const token = cookieToken || headerToken;
+
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
   try {
     const decoded = jwt.verify(
@@ -23,9 +35,10 @@ export const authenticate = (
   }
 };
 
-// NEW — admin guard
 export const requireAdmin = (
-  req: AuthRequest, res: Response, next: NextFunction
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
 ) => {
   if (req.user?.role !== "admin") {
     return res.status(403).json({ message: "Admin access required" });

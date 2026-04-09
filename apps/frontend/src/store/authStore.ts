@@ -6,36 +6,31 @@ type AuthState = {
   user: User | null;
   loading: boolean;
   initialized: boolean;
-
-  register: (data: {
-    name: string;
-    email: string;
-    password: string;
-  }) => Promise<void>;
-
+  register: (data: { name: string; email: string; password: string }) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   fetchUser: () => Promise<void>;
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
-  loading: false,
-  initialized: false, // ✅ tracks if we've checked the session on load
+  user:        null,
+  loading:     false,
+  initialized: false,
 
   // ── REGISTER ──────────────────────────────────────────────
   register: async (data) => {
     set({ loading: true });
     try {
-      await apiRequest("/auth/register", {
+      const res = await apiRequest<{ token: string }>("/auth/register", {
         method: "POST",
-        body: JSON.stringify(data),
+        body:   JSON.stringify(data),
       });
+      // ✅ store token in localStorage for cross-domain middleware
+      if (res.token) localStorage.setItem("token", res.token);
       await get().fetchUser();
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Registration failed";
-      throw new Error(message); // ✅ re-throw so form catches it
+      const message = err instanceof Error ? err.message : "Registration failed";
+      throw new Error(message);
     } finally {
       set({ loading: false });
     }
@@ -45,20 +40,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (email, password) => {
     set({ loading: true });
     try {
-      await apiRequest("/auth/login", {
+      const res = await apiRequest<{ token: string }>("/auth/login", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body:   JSON.stringify({ email, password }),
       });
+      // ✅ store token in localStorage for cross-domain middleware
+      if (res.token) localStorage.setItem("token", res.token);
       await get().fetchUser();
     } catch (err) {
       const message = err instanceof Error ? err.message : "Login failed";
-      throw new Error(message); // ✅ re-throw so form catches it
+      throw new Error(message);
     } finally {
       set({ loading: false });
     }
   },
 
-  // ── FETCH USER (restores session on page refresh) ─────────
+  // ── FETCH USER ────────────────────────────────────────────
   fetchUser: async () => {
     try {
       const res = await apiRequest<{ user: User }>("/auth/me");
@@ -73,7 +70,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       await apiRequest("/auth/logout", { method: "POST" });
     } finally {
-      set({ user: null }); // ✅ always clear, even if request fails
+      // ✅ clear token from localStorage on logout
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+      }
+      set({ user: null });
     }
   },
 }));

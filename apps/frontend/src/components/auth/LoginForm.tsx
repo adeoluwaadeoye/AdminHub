@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
@@ -20,7 +19,6 @@ import {
 } from "@/components/ui/card";
 
 export default function LoginForm() {
-  const router  = useRouter();
   const login   = useAuthStore((s) => s.login);
   const loading = useAuthStore((s) => s.loading);
 
@@ -37,8 +35,8 @@ export default function LoginForm() {
     try {
       await login(form.email, form.password);
       toast.success("Welcome back!");
-      // ✅ use replace so back button doesn't return to login
-      router.replace("/dashboard");
+      // ✅ hard redirect forces browser to re-read cookies
+      window.location.href = "/dashboard";
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Login failed.";
       toast.error(message);

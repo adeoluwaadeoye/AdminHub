@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
@@ -20,7 +19,6 @@ import {
 } from "@/components/ui/card";
 
 export default function RegisterForm() {
-  const router   = useRouter();
   const register = useAuthStore((s) => s.register);
   const loading  = useAuthStore((s) => s.loading);
 
@@ -55,8 +53,8 @@ export default function RegisterForm() {
         password: form.password,
       });
       toast.success("Account created successfully!");
-      // ✅ use replace so back button doesn't return to register
-      router.replace("/dashboard");
+      // ✅ hard redirect forces browser to re-read cookies
+      window.location.href = "/dashboard";
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Registration failed.";
       toast.error(message);

@@ -19,14 +19,14 @@ export const oauthCallback = (req: Request, res: Response) => {
 
   const token = generateToken(user);
 
+  // sameSite: "none" required for cross-domain cookies
   res.cookie("token", token, {
     httpOnly: true,
     secure:   process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge:   24 * 60 * 60 * 1000,
   });
 
-  // redirect to dashboard after successful OAuth
   res.redirect(`${FRONTEND_URL}/dashboard`);
 };
 

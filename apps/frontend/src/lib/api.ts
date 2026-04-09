@@ -17,7 +17,7 @@ export async function apiRequest<T = unknown>(
   options: RequestInit = {}
 ): Promise<T> {
   const controller = new AbortController();
-  const timeout    = setTimeout(() => controller.abort(), 15000);
+  const timeout = setTimeout(() => controller.abort(), 15000);
 
   // ✅ get token from localStorage for cross-domain requests
   const token = typeof window !== "undefined"
@@ -28,7 +28,7 @@ export async function apiRequest<T = unknown>(
     const res = await fetch(`${BASE_URL}${endpoint}`, {
       ...options,
       credentials: "include",
-      signal:      controller.signal,
+      signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
         // ✅ send token in Authorization header as fallback for cross-domain

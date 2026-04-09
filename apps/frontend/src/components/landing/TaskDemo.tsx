@@ -315,8 +315,8 @@ export default function TaskDemo() {
                       {/* CONTENT */}
                       <div className="flex-1 min-w-0">
                         <p className={`text-sm font-medium leading-snug ${task.status === "done"
-                            ? "line-through text-muted-foreground"
-                            : ""
+                          ? "line-through text-muted-foreground"
+                          : ""
                           }`}>
                           {task.title}
                         </p>

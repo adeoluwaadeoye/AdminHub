@@ -201,8 +201,8 @@ export default function SidebarSheet({ children }: SidebarSheetProps) {
                     <div
                       onClick={() => !item.disabled && toggle(index)}
                       className={`flex items-center justify-between px-3 py-3 rounded-lg transition-colors ${item.disabled
-                          ? "opacity-40 cursor-not-allowed"
-                          : "cursor-pointer hover:bg-muted/60"
+                        ? "opacity-40 cursor-not-allowed"
+                        : "cursor-pointer hover:bg-muted/60"
                         }`}
                     >
                       <div className="flex items-center gap-3 text-sm font-medium">
@@ -250,8 +250,8 @@ export default function SidebarSheet({ children }: SidebarSheetProps) {
                             <div
                               key={child.label}
                               className={`text-sm py-2 px-3 rounded-lg transition-colors ${child.disabled
-                                  ? "opacity-40 cursor-not-allowed text-muted-foreground"
-                                  : "hover:bg-muted/60 cursor-pointer"
+                                ? "opacity-40 cursor-not-allowed text-muted-foreground"
+                                : "hover:bg-muted/60 cursor-pointer"
                                 }`}
                             >
                               {child.disabled ? (

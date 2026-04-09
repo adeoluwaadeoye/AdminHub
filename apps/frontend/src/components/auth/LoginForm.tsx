@@ -19,12 +19,12 @@ import {
 } from "@/components/ui/card";
 
 export default function LoginForm() {
-  const login   = useAuthStore((s) => s.login);
+  const login = useAuthStore((s) => s.login);
   const loading = useAuthStore((s) => s.loading);
 
-  const [form,         setForm]         = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [submitting,   setSubmitting]   = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<"google" | "github" | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {

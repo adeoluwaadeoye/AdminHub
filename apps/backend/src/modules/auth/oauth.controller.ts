@@ -13,7 +13,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 // ✅ shared cookie options
 const cookieOptions = {
   httpOnly: true,
-  secure:   process.env.NODE_ENV === "production",
+  secure: process.env.NODE_ENV === "production",
   sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
     | "none" | "lax" | "strict",
   maxAge: 24 * 60 * 60 * 1000,
@@ -22,7 +22,7 @@ const cookieOptions = {
 // ✅ public cookie — readable by Next.js middleware
 const publicCookieOptions = {
   httpOnly: false,
-  secure:   process.env.NODE_ENV === "production",
+  secure: process.env.NODE_ENV === "production",
   sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
     | "none" | "lax" | "strict",
   maxAge: 24 * 60 * 60 * 1000,
@@ -38,8 +38,8 @@ export const oauthCallback = (req: Request, res: Response) => {
   const token = generateToken(user);
 
   // ✅ set both cookies — httpOnly for security, public for middleware
-  res.cookie("token",       token, cookieOptions);
-  res.cookie("auth-status", "1",   publicCookieOptions);
+  res.cookie("token", token, cookieOptions);
+  res.cookie("auth-status", "1", publicCookieOptions);
 
   res.redirect(`${FRONTEND_URL}/dashboard`);
 };

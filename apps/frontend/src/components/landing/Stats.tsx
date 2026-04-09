@@ -25,39 +25,39 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden:  { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
-    y:       0,
+    y: 0,
     transition: {
       duration: 0.6,
-      ease:     "easeOut" as const, // ✅ fixed
+      ease: "easeOut" as const, // ✅ fixed
     },
   },
 };
 
 const highlightVariants = {
-  hidden:  { opacity: 0, scale: 0.85 },
+  hidden: { opacity: 0, scale: 0.85 },
   visible: (i: number) => ({
     opacity: 1,
-    scale:   1,
+    scale: 1,
     transition: {
       duration: 0.7,
-      delay:    i * 0.2,
-      ease:     "easeOut" as const, // ✅ fixed
+      delay: i * 0.2,
+      ease: "easeOut" as const, // ✅ fixed
     },
   }),
 };
 
 const stripVariants = {
-  hidden:  { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
-    y:       0,
+    y: 0,
     transition: {
       duration: 0.8,
-      delay:    0.6,
-      ease:     "easeOut" as const, // ✅ fixed
+      delay: 0.6,
+      ease: "easeOut" as const, // ✅ fixed
     },
   },
 };
@@ -65,29 +65,29 @@ const stripVariants = {
 // ── DATA ───────────────────────────────────────────────────
 const highlights = [
   {
-    value:    240000,
-    suffix:   "+",
-    label:    "API Requests Daily",
-    color:    "text-indigo-600 dark:text-indigo-400",
+    value: 240000,
+    suffix: "+",
+    label: "API Requests Daily",
+    color: "text-indigo-600 dark:text-indigo-400",
     duration: 3.5,
     easingFn: (t: number) =>
       t < 0.7 ? t * 1.4 : 0.98 + (t - 0.7) * 0.067,
   },
   {
-    value:    4.9,
-    suffix:   "/5",
+    value: 4.9,
+    suffix: "/5",
     decimals: 1,
-    label:    "Average Rating",
-    color:    "text-yellow-500",
+    label: "Average Rating",
+    color: "text-yellow-500",
     duration: 2.8,
     easingFn: (t: number) =>
       t < 0.6 ? t * 1.6 : 0.96 + (t - 0.6) * 0.1,
   },
   {
-    value:    50,
-    suffix:   "ms",
-    label:    "Avg Response Time",
-    color:    "text-green-600 dark:text-green-400",
+    value: 50,
+    suffix: "ms",
+    label: "Avg Response Time",
+    color: "text-green-600 dark:text-green-400",
     duration: 3,
     easingFn: (t: number) =>
       t < 0.75 ? t * 1.3 : 0.975 + (t - 0.75) * 0.1,
@@ -96,74 +96,74 @@ const highlights = [
 
 const stats = [
   {
-    icon:     <HiOutlineUsers className="h-6 w-6 text-indigo-500" />,
-    value:    12400,
-    suffix:   "+",
-    label:    "Active Users",
-    desc:     "Across 6 regions worldwide",
-    color:    "bg-indigo-50 dark:bg-indigo-950",
-    border:   "border-indigo-100 dark:border-indigo-900",
+    icon: <HiOutlineUsers className="h-6 w-6 text-indigo-500" />,
+    value: 12400,
+    suffix: "+",
+    label: "Active Users",
+    desc: "Across 6 regions worldwide",
+    color: "bg-indigo-50 dark:bg-indigo-950",
+    border: "border-indigo-100 dark:border-indigo-900",
     duration: 2.5,
     easingFn: (t: number) =>
       t < 0.8 ? t * 1.2 : 0.96 + (t - 0.8) * 0.2,
   },
   {
-    icon:     <HiOutlineClipboardDocumentList className="h-6 w-6 text-green-500" />,
-    value:    98000,
-    suffix:   "+",
-    label:    "Tasks Completed",
-    desc:     "And counting every day",
-    color:    "bg-green-50 dark:bg-green-950",
-    border:   "border-green-100 dark:border-green-900",
+    icon: <HiOutlineClipboardDocumentList className="h-6 w-6 text-green-500" />,
+    value: 98000,
+    suffix: "+",
+    label: "Tasks Completed",
+    desc: "And counting every day",
+    color: "bg-green-50 dark:bg-green-950",
+    border: "border-green-100 dark:border-green-900",
     duration: 4,
     easingFn: (t: number) =>
       t < 0.65 ? t * 1.5 : 0.975 + (t - 0.65) * 0.071,
   },
   {
-    icon:     <HiOutlineChartBarSquare className="h-6 w-6 text-purple-500" />,
-    value:    99.9,
-    suffix:   "%",
+    icon: <HiOutlineChartBarSquare className="h-6 w-6 text-purple-500" />,
+    value: 99.9,
+    suffix: "%",
     decimals: 1,
-    label:    "Uptime",
-    desc:     "Reliable infrastructure",
-    color:    "bg-purple-50 dark:bg-purple-950",
-    border:   "border-purple-100 dark:border-purple-900",
+    label: "Uptime",
+    desc: "Reliable infrastructure",
+    color: "bg-purple-50 dark:bg-purple-950",
+    border: "border-purple-100 dark:border-purple-900",
     duration: 3.2,
     easingFn: (t: number) =>
       t < 0.7 ? t * 1.4 : 0.98 + (t - 0.7) * 0.067,
   },
   {
-    icon:     <HiOutlineShieldCheck className="h-6 w-6 text-blue-500" />,
-    value:    100,
-    suffix:   "%",
-    label:    "Secure",
-    desc:     "JWT + OAuth protected",
-    color:    "bg-blue-50 dark:bg-blue-950",
-    border:   "border-blue-100 dark:border-blue-900",
+    icon: <HiOutlineShieldCheck className="h-6 w-6 text-blue-500" />,
+    value: 100,
+    suffix: "%",
+    label: "Secure",
+    desc: "JWT + OAuth protected",
+    color: "bg-blue-50 dark:bg-blue-950",
+    border: "border-blue-100 dark:border-blue-900",
     duration: 2,
     easingFn: (t: number) =>
       t < 0.75 ? t * 1.3 : 0.975 + (t - 0.75) * 0.1,
   },
   {
-    icon:     <HiOutlineBolt className="h-6 w-6 text-yellow-500" />,
-    value:    2,
-    suffix:   "min",
-    label:    "Setup Time",
-    desc:     "From signup to dashboard",
-    color:    "bg-yellow-50 dark:bg-yellow-950",
-    border:   "border-yellow-100 dark:border-yellow-900",
+    icon: <HiOutlineBolt className="h-6 w-6 text-yellow-500" />,
+    value: 2,
+    suffix: "min",
+    label: "Setup Time",
+    desc: "From signup to dashboard",
+    color: "bg-yellow-50 dark:bg-yellow-950",
+    border: "border-yellow-100 dark:border-yellow-900",
     duration: 1.8,
     easingFn: (t: number) =>
       t < 0.8 ? t * 1.2 : 0.96 + (t - 0.8) * 0.2,
   },
   {
-    icon:     <HiOutlineGlobeAlt className="h-6 w-6 text-teal-500" />,
-    value:    6,
-    suffix:   "+",
-    label:    "Global Regions",
-    desc:     "Users from every continent",
-    color:    "bg-teal-50 dark:bg-teal-950",
-    border:   "border-teal-100 dark:border-teal-900",
+    icon: <HiOutlineGlobeAlt className="h-6 w-6 text-teal-500" />,
+    value: 6,
+    suffix: "+",
+    label: "Global Regions",
+    desc: "Users from every continent",
+    color: "bg-teal-50 dark:bg-teal-950",
+    border: "border-teal-100 dark:border-teal-900",
     duration: 2.2,
     easingFn: (t: number) =>
       t < 0.7 ? t * 1.4 : 0.98 + (t - 0.7) * 0.067,
@@ -174,7 +174,7 @@ export default function Stats() {
   // ✅ triggerOnce: true — fires only once when scrolled into view
   const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold:   0.15,
+    threshold: 0.15,
   });
 
   // ✅ removed unused shouldCount

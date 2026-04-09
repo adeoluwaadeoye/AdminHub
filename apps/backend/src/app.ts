@@ -8,9 +8,9 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import passport from "./config/passport";
-import authRoutes   from "./modules/auth/auth.routes";
-import taskRoutes   from "./modules/tasks/task.routes";
-import adminRoutes  from "./modules/admin/admin.routes";
+import authRoutes from "./modules/auth/auth.routes";
+import taskRoutes from "./modules/tasks/task.routes";
+import adminRoutes from "./modules/admin/admin.routes";
 import healthRoutes from "./routes/health.routes";
 import { errorHandler } from "./middlewares/error.middleware";
 
@@ -38,8 +38,8 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials:          true,
-    exposedHeaders:       ["set-cookie"], // ✅ expose cookie header
+    credentials: true,
+    exposedHeaders: ["set-cookie"], // ✅ expose cookie header
   })
 );
 
@@ -54,7 +54,7 @@ app.use(passport.initialize());
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max:      100,
+    max: 100,
   })
 );
 
@@ -62,10 +62,10 @@ app.use(
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // ── ROUTES ─────────────────────────────────────────────────
-app.use("/api/auth",   authRoutes);
-app.use("/api/tasks",  taskRoutes);
-app.use("/api/admin",  adminRoutes);
-app.use("/health",     healthRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/health", healthRoutes);
 
 // ── ERROR HANDLER — must be last ───────────────────────────
 app.use(errorHandler);

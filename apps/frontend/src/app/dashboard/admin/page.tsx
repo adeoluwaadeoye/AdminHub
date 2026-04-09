@@ -18,27 +18,27 @@ import {
 type UserRole = "user" | "admin";
 
 type AdminUser = {
-  _id:       string;
-  name:      string;
-  email:     string;
-  role:      UserRole;
+  _id: string;
+  name: string;
+  email: string;
+  role: UserRole;
   createdAt: string;
-  avatar?:   string;
+  avatar?: string;
 };
 
 type TaskStatusStat = {
-  _id:   string;
+  _id: string;
   count: number;
 };
 
 type Stats = {
-  totalUsers:    number;
-  totalTasks:    number;
+  totalUsers: number;
+  totalTasks: number;
   tasksByStatus: TaskStatusStat[];
 };
 
 type UsersResponse = {
-  users:      AdminUser[];
+  users: AdminUser[];
   totalPages: number;
 };
 
@@ -59,13 +59,13 @@ export default function AdminPage() {
     }
   }, [currentUser, initialized]);
 
-  const [users,      setUsers]      = useState<AdminUser[]>([]);
-  const [stats,      setStats]      = useState<Stats | null>(null);
-  const [loading,    setLoading]    = useState(true);
-  const [search,     setSearch]     = useState("");
-  const [page,       setPage]       = useState(1);
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [actionId,   setActionId]   = useState<string | null>(null);
+  const [actionId, setActionId] = useState<string | null>(null);
 
   const LIMIT = 8;
 
@@ -82,7 +82,7 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const params = new URLSearchParams({
-        page:  String(page),
+        page: String(page),
         limit: String(LIMIT),
         ...(search ? { search } : {}),
       });
@@ -105,7 +105,7 @@ export default function AdminPage() {
     try {
       await apiRequest(`/admin/users/${user._id}`, {
         method: "PUT",
-        body:   JSON.stringify({ role: newRole }),
+        body: JSON.stringify({ role: newRole }),
       });
       setUsers((prev) =>
         prev.map((u) => u._id === user._id ? { ...u, role: newRole } : u)
@@ -173,19 +173,19 @@ export default function AdminPage() {
           {
             label: "Total Users",
             value: stats?.totalUsers ?? "—",
-            icon:  <Users        className="h-5 w-5 text-indigo-500" />,
+            icon: <Users className="h-5 w-5 text-indigo-500" />,
             color: "bg-indigo-50 dark:bg-indigo-950",
           },
           {
             label: "Total Tasks",
             value: stats?.totalTasks ?? "—",
-            icon:  <CheckCircle2 className="h-5 w-5 text-green-500" />,
+            icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
             color: "bg-green-50 dark:bg-green-950",
           },
           {
             label: "Tasks Done",
             value: doneTasks,
-            icon:  <CheckCircle2 className="h-5 w-5 text-purple-500" />,
+            icon: <CheckCircle2 className="h-5 w-5 text-purple-500" />,
             color: "bg-purple-50 dark:bg-purple-950",
           },
         ].map((s, i) => (
@@ -301,10 +301,10 @@ export default function AdminPage() {
                                     className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-muted transition-colors"
                                   >
                                     {actionId === u._id
-                                      ? <Loader2   className="h-4 w-4 animate-spin" />
+                                      ? <Loader2 className="h-4 w-4 animate-spin" />
                                       : u.role === "admin"
                                         ? <ShieldOff className="h-4 w-4 text-muted-foreground" />
-                                        : <Shield    className="h-4 w-4 text-indigo-500" />
+                                        : <Shield className="h-4 w-4 text-indigo-500" />
                                     }
                                   </button>
 

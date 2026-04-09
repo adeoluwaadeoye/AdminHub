@@ -13,8 +13,8 @@ type AuthState = {
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user:        null,
-  loading:     false,
+  user: null,
+  loading: false,
   initialized: false,
 
   // ── REGISTER ──────────────────────────────────────────────
@@ -23,7 +23,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const res = await apiRequest<{ token: string }>("/auth/register", {
         method: "POST",
-        body:   JSON.stringify(data),
+        body: JSON.stringify(data),
       });
       // ✅ store token in localStorage for cross-domain middleware
       if (res.token) localStorage.setItem("token", res.token);
@@ -42,7 +42,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const res = await apiRequest<{ token: string }>("/auth/login", {
         method: "POST",
-        body:   JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }),
       });
       // ✅ store token in localStorage for cross-domain middleware
       if (res.token) localStorage.setItem("token", res.token);

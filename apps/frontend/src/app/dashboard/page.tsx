@@ -1,37 +1,37 @@
 "use client";
 
-import { useAuthStore }    from "@/store/authStore";
-import { useEffect }       from "react";
-import { Button }          from "@/components/ui/button";
-import { CheckSquare }     from "lucide-react";
-import Link                from "next/link";
+import { useAuthStore } from "@/store/authStore";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { CheckSquare } from "lucide-react";
+import Link from "next/link";
 
 // ── KPI & STATS ───────────────────────────────────────────
-import WeeklyProfit        from "@/components/dashboard/WeeklyProfit";
-import UsedDevices         from "@/components/dashboard/UsedDevices";
-import RegionalLabels      from "@/components/dashboard/RegionalLabels";
-import PaymentOverview     from "@/components/dashboard/PaymentOverview";
+import WeeklyProfit from "@/components/dashboard/WeeklyProfit";
+import UsedDevices from "@/components/dashboard/UsedDevices";
+import RegionalLabels from "@/components/dashboard/RegionalLabels";
+import PaymentOverview from "@/components/dashboard/PaymentOverview";
 
 // ── CHARTS ────────────────────────────────────────────────
-import LineBarChart        from "@/components/dashboard/LineBarChart";
-import TopChannels         from "@/components/dashboard/TopChannels";
+import LineBarChart from "@/components/dashboard/LineBarChart";
+import TopChannels from "@/components/dashboard/TopChannels";
 
 // ── DATA ──────────────────────────────────────────────────
-import DataTable           from "@/components/dashboard/DataTable";
-import ActivityFeed        from "@/components/dashboard/ActivityFeed";
+import DataTable from "@/components/dashboard/DataTable";
+import ActivityFeed from "@/components/dashboard/ActivityFeed";
 
 // ── MANAGEMENT ────────────────────────────────────────────
-import KanbanBoard         from "@/components/dashboard/KanbanBoard";
-import NotificationsPanel  from "@/components/dashboard/NotificationsPanel";
+import KanbanBoard from "@/components/dashboard/KanbanBoard";
+import NotificationsPanel from "@/components/dashboard/NotificationsPanel";
 
 // ── TOOLS ─────────────────────────────────────────────────
-import CalendarSchedule    from "@/components/dashboard/CalendarSchedule";
-import MapWidget           from "@/components/dashboard/MapWidget";
-import AuthGuard           from "@/components/dashboard/AuthGuard";
-import ProfileSettings     from "@/components/dashboard/ProfileSettings";
+import CalendarSchedule from "@/components/dashboard/CalendarSchedule";
+import MapWidget from "@/components/dashboard/MapWidget";
+import AuthGuard from "@/components/dashboard/AuthGuard";
+import ProfileSettings from "@/components/dashboard/ProfileSettings";
 
 export default function DashboardPage() {
-  const user        = useAuthStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
 
   useEffect(() => {

@@ -14,9 +14,9 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaApple, FaGooglePlay } from "react-icons/fa";
 
 const perks = [
-  { icon: <HiOutlineCheckCircle className="h-5 w-5 text-green-500" />,  text: "Free forever"        },
-  { icon: <HiOutlineShieldCheck  className="h-5 w-5 text-indigo-500" />, text: "JWT + OAuth secured" },
-  { icon: <HiOutlineBolt         className="h-5 w-5 text-yellow-500" />, text: "Live in 2 minutes"   },
+  { icon: <HiOutlineCheckCircle className="h-5 w-5 text-green-500" />, text: "Free forever" },
+  { icon: <HiOutlineShieldCheck className="h-5 w-5 text-indigo-500" />, text: "JWT + OAuth secured" },
+  { icon: <HiOutlineBolt className="h-5 w-5 text-yellow-500" />, text: "Live in 2 minutes" },
 ];
 
 function QRCode() {
@@ -26,22 +26,22 @@ function QRCode() {
       className="h-24 w-24 rounded-xl border bg-white p-2 shrink-0"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="4"  y="4"  width="24" height="24" rx="2" fill="none" stroke="#1e1e1e" strokeWidth="4" />
+      <rect x="4" y="4" width="24" height="24" rx="2" fill="none" stroke="#1e1e1e" strokeWidth="4" />
       <rect x="10" y="10" width="12" height="12" rx="1" fill="#1e1e1e" />
-      <rect x="52" y="4"  width="24" height="24" rx="2" fill="none" stroke="#1e1e1e" strokeWidth="4" />
+      <rect x="52" y="4" width="24" height="24" rx="2" fill="none" stroke="#1e1e1e" strokeWidth="4" />
       <rect x="58" y="10" width="12" height="12" rx="1" fill="#1e1e1e" />
-      <rect x="4"  y="52" width="24" height="24" rx="2" fill="none" stroke="#1e1e1e" strokeWidth="4" />
+      <rect x="4" y="52" width="24" height="24" rx="2" fill="none" stroke="#1e1e1e" strokeWidth="4" />
       <rect x="10" y="58" width="12" height="12" rx="1" fill="#1e1e1e" />
       {[
-        [34,4],[38,4],[42,4],[34,8],[42,8],[38,12],[34,16],[42,16],[38,20],
-        [34,34],[38,30],[42,34],[46,30],[50,34],[34,38],[46,38],[50,38],
-        [54,34],[58,30],[62,34],[66,30],[70,34],[54,38],[70,38],
-        [34,42],[42,42],[50,42],[58,42],[66,42],[70,42],
-        [34,46],[38,46],[46,46],[54,50],[62,46],[70,46],
-        [34,50],[42,54],[50,54],[58,54],[66,54],[70,50],
-        [38,58],[46,58],[54,58],[62,62],[70,58],
-        [34,62],[42,62],[50,66],[58,66],[66,66],[70,62],
-        [34,66],[38,70],[46,70],[54,70],[62,70],[70,70],
+        [34, 4], [38, 4], [42, 4], [34, 8], [42, 8], [38, 12], [34, 16], [42, 16], [38, 20],
+        [34, 34], [38, 30], [42, 34], [46, 30], [50, 34], [34, 38], [46, 38], [50, 38],
+        [54, 34], [58, 30], [62, 34], [66, 30], [70, 34], [54, 38], [70, 38],
+        [34, 42], [42, 42], [50, 42], [58, 42], [66, 42], [70, 42],
+        [34, 46], [38, 46], [46, 46], [54, 50], [62, 46], [70, 46],
+        [34, 50], [42, 54], [50, 54], [58, 54], [66, 54], [70, 50],
+        [38, 58], [46, 58], [54, 58], [62, 62], [70, 58],
+        [34, 62], [42, 62], [50, 66], [58, 66], [66, 66], [70, 62],
+        [34, 66], [38, 70], [46, 70], [54, 70], [62, 70], [70, 70],
       ].map(([x, y], i) => (
         <rect key={i} x={x} y={y} width="3" height="3" rx="0.5" fill="#1e1e1e" />
       ))}
@@ -187,7 +187,7 @@ export default function CTA() {
                   </p>
                 </div>
                 <div className="ml-auto flex items-center gap-0.5 shrink-0">
-                  {[1,2,3,4,5].map((s) => (
+                  {[1, 2, 3, 4, 5].map((s) => (
                     <span key={s} className="text-yellow-400 text-sm">★</span>
                   ))}
                 </div>
@@ -197,8 +197,8 @@ export default function CTA() {
               <div className="grid grid-cols-3 gap-2 text-center">
                 {[
                   { label: "Downloads", value: "10K+" },
-                  { label: "Rating",    value: "4.9"  },
-                  { label: "Reviews",   value: "2.3K" },
+                  { label: "Rating", value: "4.9" },
+                  { label: "Reviews", value: "2.3K" },
                 ].map((s, i) => (
                   <div key={i} className="rounded-lg bg-muted/40 py-2.5">
                     <p className="text-base font-bold">{s.value}</p>

@@ -8,19 +8,19 @@ import Footer from "@/components/layout/Footer";
 import AuthInitializer from "@/components/providers/AuthInitializer";
 
 const inter = Inter({
-  subsets:  ["latin"],
+  subsets: ["latin"],
   variable: "--font-inter",
 });
 
 const spaceGrotesk = Space_Grotesk({
-  subsets:  ["latin"],
+  subsets: ["latin"],
   variable: "--font-space",
 });
 
 // ── SEO METADATA ───────────────────────────────────────────
 export const metadata: Metadata = {
   title: {
-    default:  "AdminHub — Full-Stack Task Management Platform",
+    default: "AdminHub — Full-Stack Task Management Platform",
     template: "%s | AdminHub",
   },
   description:
@@ -36,46 +36,46 @@ export const metadata: Metadata = {
     "full-stack",
     "productivity",
   ],
-  authors:  [{ name: "Adeoluwa Adeoye", url: "https://adeoluwaadeoye.netlify.app" }],
-  creator:  "Adeoluwa Adeoye",
+  authors: [{ name: "Adeoluwa Adeoye", url: "https://adeoluwaadeoye.netlify.app" }],
+  creator: "Adeoluwa Adeoye",
   metadataBase: new URL("https://adminhub-sigma.vercel.app"),
 
   // ── OPEN GRAPH ─────────────────────────────────────────
   openGraph: {
-    type:        "website",
-    locale:      "en_US",
-    url:         "https://adminhub-sigma.vercel.app",
-    siteName:    "AdminHub",
-    title:       "AdminHub — Full-Stack Task Management Platform",
+    type: "website",
+    locale: "en_US",
+    url: "https://adminhub-sigma.vercel.app",
+    siteName: "AdminHub",
+    title: "AdminHub — Full-Stack Task Management Platform",
     description: "Manage tasks, track progress, and ship faster with AdminHub — a production-ready full-stack platform.",
     images: [
       {
-        url:    "/bg.jpg",
-        width:  1200,
+        url: "/bg.jpg",
+        width: 1200,
         height: 630,
-        alt:    "AdminHub Dashboard Preview",
+        alt: "AdminHub Dashboard Preview",
       },
     ],
   },
 
   // ── TWITTER CARD ───────────────────────────────────────
   twitter: {
-    card:        "summary_large_image",
-    title:       "AdminHub — Full-Stack Task Management Platform",
+    card: "summary_large_image",
+    title: "AdminHub — Full-Stack Task Management Platform",
     description: "Manage tasks, track progress, and ship faster with AdminHub.",
-    images:      ["/bg.png"],
-    creator:     "@AdeDadB",
+    images: ["/bg.png"],
+    creator: "@AdeDadB",
   },
 
   // ── ICONS ──────────────────────────────────────────────
   icons: {
     icon: [
-      { url: "/admin.png",    sizes: "any"     },
-      { url: "/admin.png",    sizes: "16x16",  type: "image/png" },
-      { url: "/admin.png",    sizes: "32x32",  type: "image/png" },
-      { url: "/admin.png",   sizes: "192x192",type: "image/png" },
+      { url: "/admin.png", sizes: "any" },
+      { url: "/admin.png", sizes: "16x16", type: "image/png" },
+      { url: "/admin.png", sizes: "32x32", type: "image/png" },
+      { url: "/admin.png", sizes: "192x192", type: "image/png" },
     ],
-    apple:   [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     shortcut: "/admin.png",
   },
 
@@ -84,14 +84,14 @@ export const metadata: Metadata = {
 
   // ── ROBOTS ─────────────────────────────────────────────
   robots: {
-    index:          true,
-    follow:         true,
+    index: true,
+    follow: true,
     googleBot: {
-      index:              true,
-      follow:             true,
+      index: true,
+      follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet":       -1,
+      "max-snippet": -1,
     },
   },
 
@@ -105,9 +105,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)",  color: "#0a0a0a"  },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
-  width:        "device-width",
+  width: "device-width",
   initialScale: 1,
 };
 
@@ -120,14 +120,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* ── EXTRA META TAGS ──────────────────────────── */}
-        <meta name="application-name"    content="AdminHub" />
-        <meta name="apple-mobile-web-app-capable"          content="yes" />
+        <meta name="application-name" content="AdminHub" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title"            content="AdminHub" />
-        <meta name="format-detection"    content="telephone=no" />
-        <meta name="mobile-web-app-capable"                content="yes" />
-        <meta name="msapplication-TileColor"               content="#4f46e5" />
-        <meta name="msapplication-tap-highlight"           content="no" />
+        <meta name="apple-mobile-web-app-title" content="AdminHub" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-TileColor" content="#4f46e5" />
+        <meta name="msapplication-tap-highlight" content="no" />
       </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-body antialiased bg-gray-50 dark:bg-background`}

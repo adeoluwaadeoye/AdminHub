@@ -12,7 +12,7 @@ export const authenticate = (
 ) => {
   // ✅ check cookie first, then Authorization header (for cross-domain)
   const cookieToken = req.cookies?.token;
-  const authHeader  = req.headers.authorization;
+  const authHeader = req.headers.authorization;
   const headerToken = authHeader?.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
     : null;

@@ -20,16 +20,16 @@ import {
 
 export default function RegisterForm() {
   const register = useAuthStore((s) => s.register);
-  const loading  = useAuthStore((s) => s.loading);
+  const loading = useAuthStore((s) => s.loading);
 
   const [form, setForm] = useState({
-    name:            "",
-    email:           "",
-    password:        "",
+    name: "",
+    email: "",
+    password: "",
     confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [submitting,   setSubmitting]   = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<"google" | "github" | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,8 +48,8 @@ export default function RegisterForm() {
     setSubmitting(true);
     try {
       await register({
-        name:     form.name,
-        email:    form.email,
+        name: form.name,
+        email: form.email,
         password: form.password,
       });
       toast.success("Account created successfully!");

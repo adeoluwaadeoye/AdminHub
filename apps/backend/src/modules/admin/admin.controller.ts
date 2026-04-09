@@ -11,12 +11,12 @@ export const getAllUsers = async (req: AuthRequest, res: Response) => {
     const query: Record<string, any> = {};
     if (search) {
       query.$or = [
-        { name:  { $regex: search, $options: "i" } },
+        { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
       ];
     }
 
-    const skip  = (parseInt(page) - 1) * parseInt(limit);
+    const skip = (parseInt(page) - 1) * parseInt(limit);
     const total = await User.countDocuments(query);
     const users = await User.find(query)
       .select("-password")

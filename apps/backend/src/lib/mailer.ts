@@ -3,7 +3,7 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM_EMAIL = "AdminHub <onboarding@resend.dev>";
-const APP_NAME   = "AdminHub";
+const APP_NAME = "AdminHub";
 
 // ── PASSWORD RESET ─────────────────────────────────────────
 export const sendResetEmail = async (
@@ -13,8 +13,8 @@ export const sendResetEmail = async (
   const resetUrl = `${process.env.FRONTEND_URL}/auth/reset-password?token=${token}`;
 
   await resend.emails.send({
-    from:    FROM_EMAIL,
-    to:      email,
+    from: FROM_EMAIL,
+    to: email,
     subject: "Reset your AdminHub password",
     html: `
       <!DOCTYPE html>
@@ -89,11 +89,11 @@ export const sendResetEmail = async (
 // ── WELCOME EMAIL ──────────────────────────────────────────
 export const sendWelcomeEmail = async (
   email: string,
-  name:  string
+  name: string
 ): Promise<void> => {
   await resend.emails.send({
-    from:    FROM_EMAIL,
-    to:      email,
+    from: FROM_EMAIL,
+    to: email,
     subject: `Welcome to ${APP_NAME}, ${name}! 🎉`,
     html: `
       <!DOCTYPE html>
@@ -127,11 +127,11 @@ export const sendWelcomeEmail = async (
                   What you can do now:
                 </p>
                 ${[
-                  "Create and manage tasks with priorities and due dates",
-                  "Track progress with the kanban board",
-                  "View analytics and completion stats",
-                  "Set up your profile and preferences",
-                ].map((f) => `
+        "Create and manage tasks with priorities and due dates",
+        "Track progress with the kanban board",
+        "View analytics and completion stats",
+        "Set up your profile and preferences",
+      ].map((f) => `
                   <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">
                     <span style="color:#4f46e5;font-size:14px;margin-top:1px;">✓</span>
                     <p style="margin:0;color:#374151;font-size:13px;line-height:1.5;">${f}</p>

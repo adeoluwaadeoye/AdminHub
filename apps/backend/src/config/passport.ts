@@ -7,9 +7,9 @@ import { User } from "../modules/auth/auth.model";
 passport.use(
   new GoogleStrategy(
     {
-      clientID:     process.env.GOOGLE_CLIENT_ID!,
+      clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL:  process.env.GOOGLE_CALLBACK_URL!,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL!,
     },
     async (_accessToken, _refreshToken, profile, done) => {
       try {
@@ -24,10 +24,10 @@ passport.use(
 
         if (!user) {
           user = await User.create({
-            name:     profile.displayName || "Google User",
+            name: profile.displayName || "Google User",
             email,
             password: Math.random().toString(36).slice(-16), // never used
-            avatar:   profile.photos?.[0]?.value || "",
+            avatar: profile.photos?.[0]?.value || "",
             provider: "google",
           });
         }
@@ -44,10 +44,10 @@ passport.use(
 passport.use(
   new GitHubStrategy(
     {
-      clientID:     process.env.GITHUB_CLIENT_ID!,
+      clientID: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      callbackURL:  process.env.GITHUB_CALLBACK_URL!,
-      scope:        ["user:email"],
+      callbackURL: process.env.GITHUB_CALLBACK_URL!,
+      scope: ["user:email"],
     },
     async (
       _accessToken: string,
@@ -66,10 +66,10 @@ passport.use(
 
         if (!user) {
           user = await User.create({
-            name:     profile.displayName || profile.username || "GitHub User",
+            name: profile.displayName || profile.username || "GitHub User",
             email,
             password: Math.random().toString(36).slice(-16), // never used
-            avatar:   profile.photos?.[0]?.value || "",
+            avatar: profile.photos?.[0]?.value || "",
             provider: "github",
           });
         }

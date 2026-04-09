@@ -11,13 +11,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Loader2, Lock, Eye, EyeOff } from "lucide-react";
 
 function ResetForm() {
-  const router       = useRouter();
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const token        = searchParams.get("token") || "";
+  const token = searchParams.get("token") || "";
 
   const [passwords, setPasswords] = useState({ new: "", confirm: "" });
-  const [showPass,  setShowPass]  = useState(false);
-  const [loading,   setLoading]   = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,11 +39,11 @@ function ResetForm() {
     try {
       await apiRequest("/auth/reset-password", {
         method: "POST",
-        body:   JSON.stringify({ token, newPassword: passwords.new }),
+        body: JSON.stringify({ token, newPassword: passwords.new }),
       });
       toast.success("Password reset successfully!");
       router.push("/auth/login");
-    } catch (err: unknown) { 
+    } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Reset failed. Link may have expired.";
       toast.error(message);
     } finally {
@@ -54,7 +54,7 @@ function ResetForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {[
-        { id: "new",     label: "New Password",     key: "new"     },
+        { id: "new", label: "New Password", key: "new" },
         { id: "confirm", label: "Confirm Password", key: "confirm" },
       ].map(({ id, label, key }) => (
         <div key={id} className="space-y-2">

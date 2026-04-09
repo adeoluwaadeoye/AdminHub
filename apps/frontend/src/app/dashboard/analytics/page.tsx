@@ -18,31 +18,31 @@ import {
 } from "lucide-react";
 
 type TaskItem = {
-  _id:     string;
-  title:   string;
-  status:  string;
+  _id: string;
+  title: string;
+  status: string;
   dueDate: string | null;
 };
 
 type Stats = {
-  total:      number;
+  total: number;
   completion: number;
-  byStatus:   { _id: string; count: number }[];
+  byStatus: { _id: string; count: number }[];
   byPriority: { _id: string; count: number }[];
-  dueSoon:    TaskItem[];
-  recent:     TaskItem[];
+  dueSoon: TaskItem[];
+  recent: TaskItem[];
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  "todo":        "#94a3b8",
+  "todo": "#94a3b8",
   "in-progress": "#f59e0b",
-  "done":        "#10b981",
+  "done": "#10b981",
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
-  low:    "#6366f1",
+  low: "#6366f1",
   medium: "#f97316",
-  high:   "#ef4444",
+  high: "#ef4444",
 };
 
 const statusLabel: Record<string, string> = {
@@ -50,7 +50,7 @@ const statusLabel: Record<string, string> = {
 };
 
 export default function AnalyticsPage() {
-  const user        = useAuthStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
 
   // ✅ client-side auth guard
@@ -60,7 +60,7 @@ export default function AnalyticsPage() {
     }
   }, [user, initialized]);
 
-  const [stats,   setStats]   = useState<Stats | null>(null);
+  const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -108,18 +108,18 @@ export default function AnalyticsPage() {
   if (!stats) return null;
 
   const statusData = stats.byStatus.map((s) => ({
-    name:  statusLabel[s._id] || s._id,
+    name: statusLabel[s._id] || s._id,
     value: s.count,
     color: STATUS_COLORS[s._id] || "#6366f1",
   }));
 
   const priorityData = stats.byPriority.map((p) => ({
-    name:  p._id,
+    name: p._id,
     value: p.count,
     color: PRIORITY_COLORS[p._id] || "#6366f1",
   }));
 
-  const done       = stats.byStatus.find((s) => s._id === "done")?.count || 0;
+  const done = stats.byStatus.find((s) => s._id === "done")?.count || 0;
   const inProgress = stats.byStatus.find((s) => s._id === "in-progress")?.count || 0;
 
   return (
@@ -139,25 +139,25 @@ export default function AnalyticsPage() {
           {
             label: "Total Tasks",
             value: stats.total,
-            icon:  <ListTodo    className="h-5 w-5 text-indigo-500" />,
+            icon: <ListTodo className="h-5 w-5 text-indigo-500" />,
             color: "bg-indigo-50 dark:bg-indigo-950",
           },
           {
             label: "Completed",
             value: done,
-            icon:  <CheckCircle2 className="h-5 w-5 text-green-500" />,
+            icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
             color: "bg-green-50 dark:bg-green-950",
           },
           {
             label: "In Progress",
             value: inProgress,
-            icon:  <LoaderIcon  className="h-5 w-5 text-yellow-500" />,
+            icon: <LoaderIcon className="h-5 w-5 text-yellow-500" />,
             color: "bg-yellow-50 dark:bg-yellow-950",
           },
           {
             label: "Completion Rate",
             value: `${stats.completion}%`,
-            icon:  <TrendingUp  className="h-5 w-5 text-purple-500" />,
+            icon: <TrendingUp className="h-5 w-5 text-purple-500" />,
             color: "bg-purple-50 dark:bg-purple-950",
           },
         ].map((k, i) => (
@@ -286,8 +286,8 @@ export default function AnalyticsPage() {
                     <span className="text-[10px] text-yellow-600 font-medium whitespace-nowrap">
                       {t.dueDate
                         ? new Date(t.dueDate).toLocaleDateString("en-US", {
-                            month: "short", day: "numeric",
-                          })
+                          month: "short", day: "numeric",
+                        })
                         : "—"}
                     </span>
                   </div>
@@ -316,13 +316,12 @@ export default function AnalyticsPage() {
                     className="flex items-center justify-between px-3 py-2 rounded-lg bg-muted/40"
                   >
                     <p className="text-sm truncate max-w-40">{t.title}</p>
-                    <Badge className={`text-[10px] px-2 py-0 ${
-                      t.status === "done"
+                    <Badge className={`text-[10px] px-2 py-0 ${t.status === "done"
                         ? "bg-green-100 text-green-700"
                         : t.status === "in-progress"
                           ? "bg-yellow-100 text-yellow-700"
                           : "bg-gray-100 text-gray-600"
-                    }`}>
+                      }`}>
                       {statusLabel[t.status]}
                     </Badge>
                   </div>

@@ -33,14 +33,14 @@ const bentoItems = [
         ].map((t, i) => (
           <div key={i} className="flex items-center gap-2 bg-background/60 rounded-lg px-3 py-2">
             <span className={`h-2 w-2 rounded-full shrink-0 ${t.status === "done" ? "bg-green-500" :
-                t.status === "in-progress" ? "bg-yellow-500" : "bg-gray-400"
+              t.status === "in-progress" ? "bg-yellow-500" : "bg-gray-400"
               }`} />
             <p className={`text-xs flex-1 truncate ${t.status === "done" ? "line-through text-muted-foreground" : ""}`}>
               {t.label}
             </p>
             <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium whitespace-nowrap ${t.priority === "high" ? "bg-red-100 text-red-600" :
-                t.priority === "medium" ? "bg-yellow-100 text-yellow-600" :
-                  "bg-gray-100 text-gray-500"
+              t.priority === "medium" ? "bg-yellow-100 text-yellow-600" :
+                "bg-gray-100 text-gray-500"
               }`}>
               {t.priority}
             </span>
@@ -136,9 +136,9 @@ const bentoItems = [
             <div
               key={d}
               className={`text-center text-xs py-0.5 rounded ${d === 14 ? "bg-indigo-500 text-white font-bold" :
-                  [7, 18, 25].includes(d)
-                    ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300"
-                    : "text-muted-foreground"
+                [7, 18, 25].includes(d)
+                  ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300"
+                  : "text-muted-foreground"
                 }`}
             >
               {d}
@@ -233,8 +233,8 @@ const bentoItems = [
             <p className="text-xs truncate flex-1">{p.name}</p>
             <p className="text-xs font-medium mx-2 whitespace-nowrap">{p.amount}</p>
             <span className={`text-xs px-1.5 py-0.5 rounded whitespace-nowrap ${p.status === "completed" ? "bg-green-100 text-green-700" :
-                p.status === "pending" ? "bg-yellow-100 text-yellow-700" :
-                  "bg-red-100 text-red-600"
+              p.status === "pending" ? "bg-yellow-100 text-yellow-700" :
+                "bg-red-100 text-red-600"
               }`}>
               {p.status}
             </span>
@@ -299,8 +299,8 @@ const bentoItems = [
                 <td className="px-3 py-2 text-muted-foreground hidden sm:table-cell">{u.email}</td>
                 <td className="px-3 py-2">
                   <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${u.role === "admin"
-                      ? "bg-indigo-100 text-indigo-700"
-                      : "bg-gray-100 text-gray-600"
+                    ? "bg-indigo-100 text-indigo-700"
+                    : "bg-gray-100 text-gray-600"
                     }`}>
                     {u.role}
                   </span>

@@ -19,8 +19,8 @@ export const createTask = async (req: AuthRequest, res: Response) => {
       description,
       priority,
       dueDate: dueDate ? new Date(dueDate) : null,
-      tags:    tags || [],
-      user:    userId,
+      tags: tags || [],
+      user: userId,
     });
 
     res.status(201).json(task);
@@ -40,20 +40,20 @@ export const getTasks = async (req: AuthRequest, res: Response) => {
       priority,
       tag,
       sortBy = "createdAt",
-      order  = "desc",
-      page   = "1",
-      limit  = "20",
+      order = "desc",
+      page = "1",
+      limit = "20",
     } = req.query as Record<string, string>;
 
     const query: Record<string, any> = { user: userId };
 
-    if (search)   query.$text    = { $search: search };
-    if (status)   query.status   = status;
+    if (search) query.$text = { $search: search };
+    if (status) query.status = status;
     if (priority) query.priority = priority;
-    if (tag)      query.tags     = { $in: [tag] };
+    if (tag) query.tags = { $in: [tag] };
 
-    const skip  = (parseInt(page) - 1) * parseInt(limit);
-    const sort  = { [sortBy]: order === "asc" ? 1 : -1 } as Record<string, 1 | -1>;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const sort = { [sortBy]: order === "asc" ? 1 : -1 } as Record<string, 1 | -1>;
     const total = await Task.countDocuments(query);
     const tasks = await Task.find(query)
       .sort(sort)
@@ -63,7 +63,7 @@ export const getTasks = async (req: AuthRequest, res: Response) => {
     res.json({
       tasks,
       total,
-      page:       parseInt(page),
+      page: parseInt(page),
       totalPages: Math.ceil(total / parseInt(limit)),
     });
   } catch (error: any) {
@@ -77,7 +77,7 @@ export const getTaskById = async (req: AuthRequest, res: Response) => {
     const userId = getUserId(req);
 
     const task = await Task.findOne({
-      _id:  req.params.id,
+      _id: req.params.id,
       user: userId,
     });
 
@@ -122,7 +122,7 @@ export const deleteTask = async (req: AuthRequest, res: Response) => {
     const userId = getUserId(req);
 
     const task = await Task.findOneAndDelete({
-      _id:  req.params.id,
+      _id: req.params.id,
       user: userId,
     });
 
@@ -196,8 +196,8 @@ export const getTaskStats = async (req: AuthRequest, res: Response) => {
         ]),
 
         Task.find({
-          user:    userId,
-          status:  { $ne: "done" },
+          user: userId,
+          status: { $ne: "done" },
           dueDate: {
             $gte: new Date(),
             $lte: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
@@ -209,17 +209,17 @@ export const getTaskStats = async (req: AuthRequest, res: Response) => {
           .limit(5),
       ]);
 
-    const total      = await Task.countDocuments({ user: userId });
-    const totalDone  = statusStats.find((s) => s._id === "done")?.count || 0;
+    const total = await Task.countDocuments({ user: userId });
+    const totalDone = statusStats.find((s) => s._id === "done")?.count || 0;
     const completion = total > 0 ? Math.round((totalDone / total) * 100) : 0;
 
     res.json({
       total,
       completion,
-      byStatus:   statusStats,
+      byStatus: statusStats,
       byPriority: priorityStats,
-      dueSoon:    dueSoonTasks,
-      recent:     recentTasks,
+      dueSoon: dueSoonTasks,
+      recent: recentTasks,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });

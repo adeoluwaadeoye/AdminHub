@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 
 export default function ProfilePage() {
-  const user        = useAuthStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
-  const fetchUser   = useAuthStore((s) => s.fetchUser);
+  const fetchUser = useAuthStore((s) => s.fetchUser);
 
   // ✅ client-side auth guard
   useEffect(() => {
@@ -30,13 +30,13 @@ export default function ProfilePage() {
 
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [profile,  setProfile]  = useState({ name: "", email: "" });
+  const [profile, setProfile] = useState({ name: "", email: "" });
   const [passwords, setPasswords] = useState({
     currentPassword: "", newPassword: "", confirm: "",
   });
-  const [showPass,        setShowPass]        = useState(false);
-  const [savingProfile,   setSavingProfile]   = useState(false);
-  const [savingPassword,  setSavingPassword]  = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [savingPassword, setSavingPassword] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function ProfilePage() {
 
   // ✅ show loading while auth initializes
   if (!initialized) return <ProfileSkeleton />;
-  if (!user)        return null;
+  if (!user) return null;
 
   // ── PROFILE UPDATE ─────────────────────────────────────
   const handleProfileSave = async () => {
@@ -58,7 +58,7 @@ export default function ProfilePage() {
     try {
       await apiRequest("/auth/profile", {
         method: "PUT",
-        body:   JSON.stringify(profile),
+        body: JSON.stringify(profile),
       });
       await fetchUser();
       toast.success("Profile updated successfully.");
@@ -84,9 +84,9 @@ export default function ProfilePage() {
     try {
       await apiRequest("/auth/change-password", {
         method: "PUT",
-        body:   JSON.stringify({
+        body: JSON.stringify({
           currentPassword: passwords.currentPassword,
-          newPassword:     passwords.newPassword,
+          newPassword: passwords.newPassword,
         }),
       });
       toast.success("Password changed successfully.");
@@ -117,10 +117,10 @@ export default function ProfilePage() {
       await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/avatar`,
         {
-          method:      "POST",
+          method: "POST",
           credentials: "include",
-          body:        formData,
-          headers:     token ? { Authorization: `Bearer ${token}` } : {},
+          body: formData,
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
           // ⚠️ do NOT set Content-Type — browser sets multipart boundary
         }
       );
@@ -163,7 +163,7 @@ export default function ProfilePage() {
               >
                 {uploadingAvatar
                   ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  : <Camera  className="h-3.5 w-3.5" />
+                  : <Camera className="h-3.5 w-3.5" />
                 }
               </button>
 
@@ -225,7 +225,7 @@ export default function ProfilePage() {
           >
             {savingProfile
               ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
-              : <><Save    className="h-4 w-4" /> Save Profile</>
+              : <><Save className="h-4 w-4" /> Save Profile</>
             }
           </Button>
         </CardContent>
@@ -248,9 +248,9 @@ export default function ProfilePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { id: "cur",  label: "Current Password", key: "currentPassword" },
-              { id: "new",  label: "New Password",      key: "newPassword"     },
-              { id: "conf", label: "Confirm Password",  key: "confirm"         },
+              { id: "cur", label: "Current Password", key: "currentPassword" },
+              { id: "new", label: "New Password", key: "newPassword" },
+              { id: "conf", label: "Confirm Password", key: "confirm" },
             ].map(({ id, label, key }) => (
               <div key={id} className="space-y-2">
                 <Label htmlFor={id} className="text-sm">{label}</Label>
@@ -272,7 +272,7 @@ export default function ProfilePage() {
                   >
                     {showPass
                       ? <EyeOff className="h-4 w-4" />
-                      : <Eye    className="h-4 w-4" />
+                      : <Eye className="h-4 w-4" />
                     }
                   </button>
                 </div>
@@ -288,7 +288,7 @@ export default function ProfilePage() {
           >
             {savingPassword
               ? <><Loader2 className="h-4 w-4 animate-spin" /> Updating...</>
-              : <><Lock    className="h-4 w-4" /> Update Password</>
+              : <><Lock className="h-4 w-4" /> Update Password</>
             }
           </Button>
         </CardContent>

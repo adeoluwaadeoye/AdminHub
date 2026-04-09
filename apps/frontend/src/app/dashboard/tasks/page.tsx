@@ -29,29 +29,29 @@ import {
 type Priority = "low" | "medium" | "high";
 
 type Comment = {
-  _id:       string;
-  text:      string;
+  _id: string;
+  text: string;
   createdAt: string;
 };
 
 type FullTask = Task & {
   priority: Priority;
-  dueDate:  string | null;
-  tags:     string[];
+  dueDate: string | null;
+  tags: string[];
   comments: Comment[];
 };
 
 // ── STYLE MAPS ─────────────────────────────────────────────
 const statusStyles: Record<TaskStatus, string> = {
-  "todo":        "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
+  "todo": "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
   "in-progress": "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
-  "done":        "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+  "done": "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
 };
 
 const priorityStyles: Record<Priority, string> = {
-  low:    "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-300",
+  low: "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-300",
   medium: "bg-orange-50 text-orange-600 dark:bg-orange-950 dark:text-orange-300",
-  high:   "bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-300",
+  high: "bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-300",
 };
 
 const statusCycle: Record<TaskStatus, TaskStatus> = {
@@ -83,11 +83,11 @@ function EmptyState({ filtered }: { filtered: boolean }) {
 function CommentSection({
   taskId, comments, onUpdate,
 }: {
-  taskId:   string;
+  taskId: string;
   comments: Comment[];
   onUpdate: (updated: FullTask) => void;
 }) {
-  const [text,    setText]    = useState("");
+  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleAdd = async () => {
@@ -155,7 +155,7 @@ function CommentSection({
         >
           {loading
             ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            : <Plus    className="h-3.5 w-3.5" />
+            : <Plus className="h-3.5 w-3.5" />
           }
         </Button>
       </div>
@@ -165,7 +165,7 @@ function CommentSection({
 
 // ── MAIN PAGE ──────────────────────────────────────────────
 export default function TasksPage() {
-  const user        = useAuthStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
 
   // ✅ client-side auth guard
@@ -175,17 +175,17 @@ export default function TasksPage() {
     }
   }, [user, initialized]);
 
-  const [tasks,      setTasks]      = useState<FullTask[]>([]);
-  const [loading,    setLoading]    = useState(true);
-  const [creating,   setCreating]   = useState(false);
+  const [tasks, setTasks] = useState<FullTask[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [editId,     setEditId]     = useState<string | null>(null);
-  const [expandId,   setExpandId]   = useState<string | null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
+  const [expandId, setExpandId] = useState<string | null>(null);
 
-  const [search,   setSearch]   = useState("");
-  const [status,   setStatus]   = useState<TaskStatus | "all">("all");
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState<TaskStatus | "all">("all");
   const [priority, setPriority] = useState<Priority | "all">("all");
-  const [sortBy,   setSortBy]   = useState<"createdAt" | "dueDate" | "priority">("createdAt");
+  const [sortBy, setSortBy] = useState<"createdAt" | "dueDate" | "priority">("createdAt");
 
   const [newTask, setNewTask] = useState({
     title: "", description: "", priority: "medium" as Priority,
@@ -197,9 +197,9 @@ export default function TasksPage() {
     dueDate: "", tags: "", status: "todo" as TaskStatus,
   });
 
-  const [page,       setPage]       = useState(1);
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [total,      setTotal]      = useState(0);
+  const [total, setTotal] = useState(0);
 
   const LIMIT = 10;
 
@@ -208,13 +208,13 @@ export default function TasksPage() {
     setLoading(true);
     try {
       const params: Record<string, string> = {
-        page:  String(page),
+        page: String(page),
         limit: String(LIMIT),
         sortBy,
         order: "desc",
       };
-      if (search)             params.search   = search;
-      if (status   !== "all") params.status   = status;
+      if (search) params.search = search;
+      if (status !== "all") params.status = status;
       if (priority !== "all") params.priority = priority;
 
       const data = await taskApi.getAll(params);
@@ -236,11 +236,11 @@ export default function TasksPage() {
     setCreating(true);
     try {
       await taskApi.create({
-        title:       newTask.title.trim(),
+        title: newTask.title.trim(),
         description: newTask.description.trim(),
-        priority:    newTask.priority,
-        dueDate:     newTask.dueDate || null,
-        tags:        newTask.tags
+        priority: newTask.priority,
+        dueDate: newTask.dueDate || null,
+        tags: newTask.tags
           ? newTask.tags.split(",").map((t) => t.trim()).filter(Boolean)
           : [],
       });
@@ -274,12 +274,12 @@ export default function TasksPage() {
     if (!editForm.title.trim()) { toast.error("Title is required."); return; }
     try {
       const updated = await taskApi.update(id, {
-        title:       editForm.title.trim(),
+        title: editForm.title.trim(),
         description: editForm.description.trim(),
-        status:      editForm.status,
-        priority:    editForm.priority,
-        dueDate:     editForm.dueDate || null,
-        tags:        editForm.tags
+        status: editForm.status,
+        priority: editForm.priority,
+        dueDate: editForm.dueDate || null,
+        tags: editForm.tags
           ? editForm.tags.split(",").map((t) => t.trim()).filter(Boolean)
           : [],
       });
@@ -411,7 +411,7 @@ export default function TasksPage() {
           >
             {creating
               ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating...</>
-              : <><Plus    className="h-4 w-4" /> Add Task</>
+              : <><Plus className="h-4 w-4" /> Add Task</>
             }
           </Button>
         </CardContent>
@@ -479,7 +479,7 @@ export default function TasksPage() {
             <Button variant="outline" size="sm" className="gap-2 h-9">
               Sort: {
                 sortBy === "createdAt" ? "Newest" :
-                sortBy === "dueDate"   ? "Due Date" : "Priority"
+                  sortBy === "dueDate" ? "Due Date" : "Priority"
               }
             </Button>
           </DropdownMenuTrigger>
@@ -514,9 +514,8 @@ export default function TasksPage() {
           {tasks.map((task) => (
             <Card
               key={task._id}
-              className={`shadow-sm transition-all duration-200 ${
-                task.status === "done" ? "opacity-60" : ""
-              }`}
+              className={`shadow-sm transition-all duration-200 ${task.status === "done" ? "opacity-60" : ""
+                }`}
             >
               <CardContent className="p-4">
                 {editId === task._id ? (
@@ -620,11 +619,10 @@ export default function TasksPage() {
                       </button>
 
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-medium ${
-                          task.status === "done"
+                        <p className={`text-sm font-medium ${task.status === "done"
                             ? "line-through text-muted-foreground"
                             : ""
-                        }`}>
+                          }`}>
                           {task.title}
                         </p>
 
@@ -675,7 +673,7 @@ export default function TasksPage() {
                           className="h-7 w-7 flex items-center justify-center rounded-lg hover:bg-muted transition-colors"
                         >
                           {expandId === task._id
-                            ? <ChevronUp   className="h-3.5 w-3.5 text-muted-foreground" />
+                            ? <ChevronUp className="h-3.5 w-3.5 text-muted-foreground" />
                             : <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
                           }
                         </button>
@@ -684,11 +682,11 @@ export default function TasksPage() {
                           onClick={() => {
                             setEditId(task._id);
                             setEditForm({
-                              title:       task.title,
+                              title: task.title,
                               description: task.description,
-                              status:      task.status,
-                              priority:    task.priority,
-                              dueDate:     task.dueDate
+                              status: task.status,
+                              priority: task.priority,
+                              dueDate: task.dueDate
                                 ? new Date(task.dueDate).toISOString().split("T")[0]
                                 : "",
                               tags: task.tags?.join(", ") || "",
@@ -706,7 +704,7 @@ export default function TasksPage() {
                         >
                           {deletingId === task._id
                             ? <Loader2 className="h-3.5 w-3.5 animate-spin text-red-500" />
-                            : <Trash2  className="h-3.5 w-3.5 text-red-500" />
+                            : <Trash2 className="h-3.5 w-3.5 text-red-500" />
                           }
                         </button>
                       </div>

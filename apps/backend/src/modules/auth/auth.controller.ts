@@ -17,7 +17,7 @@ const generateToken = (user: any) => {
 // ✅ httpOnly cookie — secure, not readable by JS
 const cookieOptions = {
   httpOnly: true,
-  secure:   process.env.NODE_ENV === "production",
+  secure: process.env.NODE_ENV === "production",
   sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
     | "none" | "lax" | "strict",
   maxAge: 24 * 60 * 60 * 1000,
@@ -26,7 +26,7 @@ const cookieOptions = {
 // ✅ public cookie — readable by Next.js middleware for route protection
 const publicCookieOptions = {
   httpOnly: false,
-  secure:   process.env.NODE_ENV === "production",
+  secure: process.env.NODE_ENV === "production",
   sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
     | "none" | "lax" | "strict",
   maxAge: 24 * 60 * 60 * 1000,
@@ -43,12 +43,12 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const user   = await User.create({ name, email, password: hashed });
-    const token  = generateToken(user);
+    const user = await User.create({ name, email, password: hashed });
+    const token = generateToken(user);
 
     // ✅ set both cookies
-    res.cookie("token",       token, cookieOptions);
-    res.cookie("auth-status", "1",   publicCookieOptions);
+    res.cookie("token", token, cookieOptions);
+    res.cookie("auth-status", "1", publicCookieOptions);
 
     sendWelcomeEmail(email, name).catch((err: Error) =>
       console.error("Welcome email failed:", err.message)
@@ -79,8 +79,8 @@ export const login = async (req: Request, res: Response) => {
     const token = generateToken(user);
 
     // ✅ set both cookies
-    res.cookie("token",       token, cookieOptions);
-    res.cookie("auth-status", "1",   publicCookieOptions);
+    res.cookie("token", token, cookieOptions);
+    res.cookie("auth-status", "1", publicCookieOptions);
 
     res.json({ message: "Login successful", token });
   } catch (error) {
@@ -94,13 +94,13 @@ export const logout = (_req: Request, res: Response) => {
   // ✅ clear both cookies on logout
   res.clearCookie("token", {
     httpOnly: true,
-    secure:   process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production",
     sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
       | "none" | "lax" | "strict",
   });
   res.clearCookie("auth-status", {
     httpOnly: false,
-    secure:   process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production",
     sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as
       | "none" | "lax" | "strict",
   });
@@ -220,10 +220,10 @@ export const forgotPassword = async (req: Request, res: Response) => {
       });
     }
 
-    const token  = crypto.randomBytes(32).toString("hex");
+    const token = crypto.randomBytes(32).toString("hex");
     const expiry = new Date(Date.now() + 60 * 60 * 1000);
 
-    user.resetPasswordToken  = token;
+    user.resetPasswordToken = token;
     user.resetPasswordExpiry = expiry;
     await user.save();
 
@@ -244,7 +244,7 @@ export const resetPassword = async (req: Request, res: Response) => {
     const { token, newPassword } = req.body;
 
     const user = await User.findOne({
-      resetPasswordToken:  token,
+      resetPasswordToken: token,
       resetPasswordExpiry: { $gt: new Date() },
     });
 
@@ -260,8 +260,8 @@ export const resetPassword = async (req: Request, res: Response) => {
       });
     }
 
-    user.password            = await bcrypt.hash(newPassword, 10);
-    user.resetPasswordToken  = undefined;
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetPasswordToken = undefined;
     user.resetPasswordExpiry = undefined;
     await user.save();
 

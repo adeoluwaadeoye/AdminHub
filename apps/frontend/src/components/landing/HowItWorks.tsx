@@ -118,8 +118,8 @@ export default function HowItWorks() {
                 size="sm"
                 variant={role === r ? "default" : "ghost"}
                 className={`px-8 capitalize rounded-lg transition-all text-sm ${role === r
-                    ? "bg-indigo-600 hover:bg-indigo-700 text-white"
-                    : "text-muted-foreground"
+                  ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                  : "text-muted-foreground"
                   }`}
                 onClick={() => setRole(r)}
               >

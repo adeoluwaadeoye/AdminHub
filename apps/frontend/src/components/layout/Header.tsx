@@ -31,32 +31,32 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 type Notif = {
-  id:    number;
+  id: number;
   title: string;
-  desc:  string;
-  time:  string;
-  read:  boolean;
+  desc: string;
+  time: string;
+  read: boolean;
   color: string;
 };
 
 const mockNotifs: Notif[] = [
-  { id: 1, title: "New user registered",   desc: "Alice Johnson just signed up",  time: "2m ago",  read: false, color: "bg-blue-500"   },
-  { id: 2, title: "Payment received",      desc: "Bob Smith paid $120",           time: "15m ago", read: false, color: "bg-green-500"  },
-  { id: 3, title: "Server warning",        desc: "CPU usage exceeded 85%",        time: "1h ago",  read: false, color: "bg-yellow-500" },
-  { id: 4, title: "New login detected",    desc: "Sign-in from Lagos, NG",        time: "2h ago",  read: true,  color: "bg-indigo-500" },
-  { id: 5, title: "Scheduled maintenance", desc: "Downtime Sunday 2am–4am",       time: "3h ago",  read: true,  color: "bg-gray-400"   },
+  { id: 1, title: "New user registered", desc: "Alice Johnson just signed up", time: "2m ago", read: false, color: "bg-blue-500" },
+  { id: 2, title: "Payment received", desc: "Bob Smith paid $120", time: "15m ago", read: false, color: "bg-green-500" },
+  { id: 3, title: "Server warning", desc: "CPU usage exceeded 85%", time: "1h ago", read: false, color: "bg-yellow-500" },
+  { id: 4, title: "New login detected", desc: "Sign-in from Lagos, NG", time: "2h ago", read: true, color: "bg-indigo-500" },
+  { id: 5, title: "Scheduled maintenance", desc: "Downtime Sunday 2am–4am", time: "3h ago", read: true, color: "bg-gray-400" },
 ];
 
 export default function Header() {
-  const router      = useRouter();
-  const user        = useAuthStore((s) => s.user);
+  const router = useRouter();
+  const user = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
-  const logout      = useAuthStore((s) => s.logout);
+  const logout = useAuthStore((s) => s.logout);
 
-  const [notifs,     setNotifs]     = useState<Notif[]>(mockNotifs);
-  const [notifOpen,  setNotifOpen]  = useState(false);
+  const [notifs, setNotifs] = useState<Notif[]>(mockNotifs);
+  const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [query,      setQuery]      = useState("");
+  const [query, setQuery] = useState("");
 
   const unread = notifs.filter((n) => !n.read).length;
 
@@ -144,7 +144,7 @@ export default function Header() {
               className="lg:hidden h-9 w-9 flex items-center justify-center rounded-lg hover:bg-muted transition-colors shrink-0 mr-12"
             >
               {searchOpen
-                ? <X      className="h-5 w-5 text-muted-foreground" />
+                ? <X className="h-5 w-5 text-muted-foreground" />
                 : <Search className="h-5 w-5 text-muted-foreground" />
               }
             </button>
@@ -203,9 +203,8 @@ export default function Header() {
                       notifs.map((n) => (
                         <div
                           key={n.id}
-                          className={`flex items-start gap-3 px-4 py-3 hover:bg-muted/40 transition-colors ${
-                            !n.read ? "bg-indigo-50/50 dark:bg-indigo-950/20" : ""
-                          }`}
+                          className={`flex items-start gap-3 px-4 py-3 hover:bg-muted/40 transition-colors ${!n.read ? "bg-indigo-50/50 dark:bg-indigo-950/20" : ""
+                            }`}
                         >
                           <span className={`mt-1.5 h-2 w-2 rounded-full shrink-0 ${n.color}`} />
                           <div className="flex-1 min-w-0">

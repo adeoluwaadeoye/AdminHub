@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config(); // ✅ must be first — before passport import
+dotenv.config();
 
 import express from "express";
 import helmet from "helmet";

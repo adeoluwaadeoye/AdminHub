@@ -14,8 +14,8 @@ A production-ready, full-stack task management platform built with **Next.js App
 
 | Service | URL |
 |---------|-----|
-| Frontend | [https://dashboard-app.vercel.app](https://dashboard-app.vercel.app) |
-| Backend API | [https://dashboard-app-backend.onrender.com](https://dashboard-app-backend.onrender.com) |
+| Frontend | [https://dashboard-app.vercel.app](https://adminhub-sigma.vercel.app/) |
+| Backend API | [https://dashboard-app-backend.onrender.com](https://adminhub-ea0f.onrender.com) |
 
 ---
 

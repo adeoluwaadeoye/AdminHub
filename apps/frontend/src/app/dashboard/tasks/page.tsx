@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useAuthStore } from "@/store/authStore";
 import { taskApi } from "@/lib/taskApi";
 import { Task, TaskStatus } from "@/types/task";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,8 +29,8 @@ import {
 type Priority = "low" | "medium" | "high";
 
 type Comment = {
-  _id: string;
-  text: string;
+  _id:       string;
+  text:      string;
   createdAt: string;
 };
 
@@ -70,7 +71,9 @@ function EmptyState({ filtered }: { filtered: boolean }) {
         {filtered ? "No tasks match your filters." : "No tasks yet."}
       </p>
       <p className="text-xs mt-1">
-        {filtered ? "Try adjusting your search or filters." : "Create your first task above."}
+        {filtered
+          ? "Try adjusting your search or filters."
+          : "Create your first task above."}
       </p>
     </div>
   );
@@ -80,7 +83,7 @@ function EmptyState({ filtered }: { filtered: boolean }) {
 function CommentSection({
   taskId, comments, onUpdate,
 }: {
-  taskId: string;
+  taskId:   string;
   comments: Comment[];
   onUpdate: (updated: FullTask) => void;
 }) {
@@ -122,7 +125,8 @@ function CommentSection({
             <p className="text-xs">{c.text}</p>
             <p className="text-[10px] text-muted-foreground mt-0.5">
               {new Date(c.createdAt).toLocaleDateString("en-US", {
-                month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
+                month: "short", day: "numeric",
+                hour: "2-digit", minute: "2-digit",
               })}
             </p>
           </div>
@@ -151,7 +155,7 @@ function CommentSection({
         >
           {loading
             ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            : <Plus className="h-3.5 w-3.5" />
+            : <Plus    className="h-3.5 w-3.5" />
           }
         </Button>
       </div>
@@ -161,6 +165,16 @@ function CommentSection({
 
 // ── MAIN PAGE ──────────────────────────────────────────────
 export default function TasksPage() {
+  const user        = useAuthStore((s) => s.user);
+  const initialized = useAuthStore((s) => s.initialized);
+
+  // ✅ client-side auth guard
+  useEffect(() => {
+    if (initialized && !user) {
+      window.location.href = "/auth/login";
+    }
+  }, [user, initialized]);
+
   const [tasks,      setTasks]      = useState<FullTask[]>([]);
   const [loading,    setLoading]    = useState(true);
   const [creating,   setCreating]   = useState(false);
@@ -168,25 +182,21 @@ export default function TasksPage() {
   const [editId,     setEditId]     = useState<string | null>(null);
   const [expandId,   setExpandId]   = useState<string | null>(null);
 
-  // ── filters
   const [search,   setSearch]   = useState("");
   const [status,   setStatus]   = useState<TaskStatus | "all">("all");
   const [priority, setPriority] = useState<Priority | "all">("all");
   const [sortBy,   setSortBy]   = useState<"createdAt" | "dueDate" | "priority">("createdAt");
 
-  // ── new task form
   const [newTask, setNewTask] = useState({
     title: "", description: "", priority: "medium" as Priority,
     dueDate: "", tags: "",
   });
 
-  // ── edit form
   const [editForm, setEditForm] = useState({
     title: "", description: "", priority: "medium" as Priority,
     dueDate: "", tags: "", status: "todo" as TaskStatus,
   });
 
-  // ── pagination
   const [page,       setPage]       = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total,      setTotal]      = useState(0);
@@ -203,9 +213,9 @@ export default function TasksPage() {
         sortBy,
         order: "desc",
       };
-      if (search)              params.search   = search;
-      if (status   !== "all")  params.status   = status;
-      if (priority !== "all")  params.priority = priority;
+      if (search)             params.search   = search;
+      if (status   !== "all") params.status   = status;
+      if (priority !== "all") params.priority = priority;
 
       const data = await taskApi.getAll(params);
       setTasks(data.tasks as FullTask[]);
@@ -230,13 +240,14 @@ export default function TasksPage() {
         description: newTask.description.trim(),
         priority:    newTask.priority,
         dueDate:     newTask.dueDate || null,
-        tags:        newTask.tags ? newTask.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+        tags:        newTask.tags
+          ? newTask.tags.split(",").map((t) => t.trim()).filter(Boolean)
+          : [],
       });
       setNewTask({ title: "", description: "", priority: "medium", dueDate: "", tags: "" });
       toast.success("Task created!");
       fetchTasks();
-    // ✅ fixed
- } catch (err: unknown) {
+    } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to create task.";
       toast.error(message);
     } finally {
@@ -247,9 +258,15 @@ export default function TasksPage() {
   // ── STATUS CYCLE ───────────────────────────────────────
   const handleStatusCycle = async (task: FullTask) => {
     try {
-      const updated = await taskApi.update(task._id, { status: statusCycle[task.status] });
-      setTasks((prev) => prev.map((t) => t._id === updated._id ? { ...t, ...updated } : t));
-    } catch { toast.error("Failed to update status."); }
+      const updated = await taskApi.update(task._id, {
+        status: statusCycle[task.status],
+      });
+      setTasks((prev) =>
+        prev.map((t) => t._id === updated._id ? { ...t, ...updated } : t)
+      );
+    } catch {
+      toast.error("Failed to update status.");
+    }
   };
 
   // ── EDIT SAVE ──────────────────────────────────────────
@@ -262,12 +279,18 @@ export default function TasksPage() {
         status:      editForm.status,
         priority:    editForm.priority,
         dueDate:     editForm.dueDate || null,
-        tags:        editForm.tags ? editForm.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+        tags:        editForm.tags
+          ? editForm.tags.split(",").map((t) => t.trim()).filter(Boolean)
+          : [],
       });
-      setTasks((prev) => prev.map((t) => t._id === updated._id ? { ...t, ...updated } : t));
+      setTasks((prev) =>
+        prev.map((t) => t._id === updated._id ? { ...t, ...updated } : t)
+      );
       setEditId(null);
       toast.success("Task updated!");
-    } catch { toast.error("Failed to update task."); }
+    } catch {
+      toast.error("Failed to update task.");
+    }
   };
 
   // ── DELETE ─────────────────────────────────────────────
@@ -278,8 +301,11 @@ export default function TasksPage() {
       setTasks((prev) => prev.filter((t) => t._id !== id));
       setTotal((p) => p - 1);
       toast.success("Task deleted.");
-    } catch { toast.error("Failed to delete task."); }
-    finally { setDeletingId(null); }
+    } catch {
+      toast.error("Failed to delete task.");
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   // ── COMMENT UPDATE ──────────────────────────────────────
@@ -288,6 +314,20 @@ export default function TasksPage() {
   };
 
   const hasFilters = search || status !== "all" || priority !== "all";
+
+  // ✅ show loading while auth initializes
+  if (!initialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin" />
+          <p className="text-sm text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
@@ -326,12 +366,13 @@ export default function TasksPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {/* PRIORITY */}
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground">Priority</Label>
               <select
                 value={newTask.priority}
-                onChange={(e) => setNewTask((p) => ({ ...p, priority: e.target.value as Priority }))}
+                onChange={(e) =>
+                  setNewTask((p) => ({ ...p, priority: e.target.value as Priority }))
+                }
                 className="w-full h-9 rounded-lg border bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
               >
                 <option value="low">Low</option>
@@ -340,7 +381,6 @@ export default function TasksPage() {
               </select>
             </div>
 
-            {/* DUE DATE */}
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground">Due Date</Label>
               <Input
@@ -351,9 +391,10 @@ export default function TasksPage() {
               />
             </div>
 
-            {/* TAGS */}
             <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground">Tags (comma separated)</Label>
+              <Label className="text-xs text-muted-foreground">
+                Tags (comma separated)
+              </Label>
               <Input
                 placeholder="design, backend, urgent"
                 value={newTask.tags}
@@ -370,7 +411,7 @@ export default function TasksPage() {
           >
             {creating
               ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating...</>
-              : <><Plus className="h-4 w-4" /> Add Task</>
+              : <><Plus    className="h-4 w-4" /> Add Task</>
             }
           </Button>
         </CardContent>
@@ -379,7 +420,6 @@ export default function TasksPage() {
       {/* FILTERS */}
       <div className="flex flex-wrap items-center gap-2">
 
-        {/* SEARCH */}
         <div className="relative flex-1 min-w-48">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
           <Input
@@ -390,7 +430,6 @@ export default function TasksPage() {
           />
         </div>
 
-        {/* STATUS FILTER */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="gap-2 h-9">
@@ -411,7 +450,6 @@ export default function TasksPage() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* PRIORITY FILTER */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="gap-2 h-9">
@@ -425,18 +463,24 @@ export default function TasksPage() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {(["low", "medium", "high"] as Priority[]).map((p) => (
-              <DropdownMenuItem key={p} onClick={() => { setPriority(p); setPage(1); }} className="capitalize">
+              <DropdownMenuItem
+                key={p}
+                onClick={() => { setPriority(p); setPage(1); }}
+                className="capitalize"
+              >
                 {p}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* SORT */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="gap-2 h-9">
-              Sort: {sortBy === "createdAt" ? "Newest" : sortBy === "dueDate" ? "Due Date" : "Priority"}
+              Sort: {
+                sortBy === "createdAt" ? "Newest" :
+                sortBy === "dueDate"   ? "Due Date" : "Priority"
+              }
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -446,13 +490,14 @@ export default function TasksPage() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* CLEAR FILTERS */}
         {hasFilters && (
           <Button
             variant="ghost"
             size="sm"
             className="h-9 text-muted-foreground"
-            onClick={() => { setSearch(""); setStatus("all"); setPriority("all"); setPage(1); }}
+            onClick={() => {
+              setSearch(""); setStatus("all"); setPriority("all"); setPage(1);
+            }}
           >
             <X className="h-3.5 w-3.5 mr-1" /> Clear
           </Button>
@@ -474,20 +519,23 @@ export default function TasksPage() {
               }`}
             >
               <CardContent className="p-4">
-
                 {editId === task._id ? (
-                  /* ── EDIT MODE ─────────────────────────── */
+                  /* ── EDIT MODE ── */
                   <div className="space-y-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <Input
                         value={editForm.title}
-                        onChange={(e) => setEditForm((p) => ({ ...p, title: e.target.value }))}
+                        onChange={(e) =>
+                          setEditForm((p) => ({ ...p, title: e.target.value }))
+                        }
                         className="focus-visible:ring-indigo-500"
                         placeholder="Title"
                       />
                       <Input
                         value={editForm.description}
-                        onChange={(e) => setEditForm((p) => ({ ...p, description: e.target.value }))}
+                        onChange={(e) =>
+                          setEditForm((p) => ({ ...p, description: e.target.value }))
+                        }
                         className="focus-visible:ring-indigo-500"
                         placeholder="Description"
                       />
@@ -496,7 +544,9 @@ export default function TasksPage() {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       <select
                         value={editForm.status}
-                        onChange={(e) => setEditForm((p) => ({ ...p, status: e.target.value as TaskStatus }))}
+                        onChange={(e) =>
+                          setEditForm((p) => ({ ...p, status: e.target.value as TaskStatus }))
+                        }
                         className="h-9 rounded-lg border bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
                       >
                         {(["todo", "in-progress", "done"] as TaskStatus[]).map((s) => (
@@ -506,7 +556,9 @@ export default function TasksPage() {
 
                       <select
                         value={editForm.priority}
-                        onChange={(e) => setEditForm((p) => ({ ...p, priority: e.target.value as Priority }))}
+                        onChange={(e) =>
+                          setEditForm((p) => ({ ...p, priority: e.target.value as Priority }))
+                        }
                         className="h-9 rounded-lg border bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
                       >
                         {(["low", "medium", "high"] as Priority[]).map((p) => (
@@ -517,14 +569,18 @@ export default function TasksPage() {
                       <Input
                         type="date"
                         value={editForm.dueDate}
-                        onChange={(e) => setEditForm((p) => ({ ...p, dueDate: e.target.value }))}
+                        onChange={(e) =>
+                          setEditForm((p) => ({ ...p, dueDate: e.target.value }))
+                        }
                         className="h-9 focus-visible:ring-indigo-500"
                       />
 
                       <Input
                         placeholder="tag1, tag2"
                         value={editForm.tags}
-                        onChange={(e) => setEditForm((p) => ({ ...p, tags: e.target.value }))}
+                        onChange={(e) =>
+                          setEditForm((p) => ({ ...p, tags: e.target.value }))
+                        }
                         className="h-9 focus-visible:ring-indigo-500"
                       />
                     </div>
@@ -538,7 +594,8 @@ export default function TasksPage() {
                         <Check className="h-3.5 w-3.5" /> Save
                       </Button>
                       <Button
-                        size="sm" variant="outline"
+                        size="sm"
+                        variant="outline"
                         className="gap-1"
                         onClick={() => setEditId(null)}
                       >
@@ -548,11 +605,10 @@ export default function TasksPage() {
                   </div>
 
                 ) : (
-                  /* ── VIEW MODE ─────────────────────────── */
+                  /* ── VIEW MODE ── */
                   <>
                     <div className="flex items-start gap-3">
 
-                      {/* STATUS BADGE */}
                       <button
                         onClick={() => handleStatusCycle(task)}
                         title="Click to cycle status"
@@ -563,9 +619,12 @@ export default function TasksPage() {
                         </Badge>
                       </button>
 
-                      {/* CONTENT */}
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-medium ${task.status === "done" ? "line-through text-muted-foreground" : ""}`}>
+                        <p className={`text-sm font-medium ${
+                          task.status === "done"
+                            ? "line-through text-muted-foreground"
+                            : ""
+                        }`}>
                           {task.title}
                         </p>
 
@@ -575,15 +634,11 @@ export default function TasksPage() {
                           </p>
                         )}
 
-                        {/* META ROW */}
                         <div className="flex flex-wrap items-center gap-2 mt-1.5">
-
-                          {/* PRIORITY */}
                           <Badge className={`text-[10px] px-1.5 py-0 ${priorityStyles[task.priority]}`}>
                             {task.priority}
                           </Badge>
 
-                          {/* DUE DATE */}
                           {task.dueDate && (
                             <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                               <Calendar className="h-3 w-3" />
@@ -593,7 +648,6 @@ export default function TasksPage() {
                             </span>
                           )}
 
-                          {/* TAGS */}
                           {task.tags?.map((tag) => (
                             <span
                               key={tag}
@@ -604,7 +658,6 @@ export default function TasksPage() {
                             </span>
                           ))}
 
-                          {/* COMMENTS COUNT */}
                           {task.comments?.length > 0 && (
                             <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                               <MessageSquare className="h-3 w-3" />
@@ -614,12 +667,11 @@ export default function TasksPage() {
                         </div>
                       </div>
 
-                      {/* ACTION BUTTONS */}
                       <div className="flex items-center gap-1 shrink-0">
-
-                        {/* EXPAND/COLLAPSE */}
                         <button
-                          onClick={() => setExpandId(expandId === task._id ? null : task._id)}
+                          onClick={() =>
+                            setExpandId(expandId === task._id ? null : task._id)
+                          }
                           className="h-7 w-7 flex items-center justify-center rounded-lg hover:bg-muted transition-colors"
                         >
                           {expandId === task._id
@@ -628,7 +680,6 @@ export default function TasksPage() {
                           }
                         </button>
 
-                        {/* EDIT */}
                         <button
                           onClick={() => {
                             setEditId(task._id);
@@ -648,7 +699,6 @@ export default function TasksPage() {
                           <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
                         </button>
 
-                        {/* DELETE */}
                         <button
                           onClick={() => handleDelete(task._id)}
                           disabled={deletingId === task._id}
@@ -662,7 +712,6 @@ export default function TasksPage() {
                       </div>
                     </div>
 
-                    {/* EXPANDED — comments */}
                     {expandId === task._id && (
                       <CommentSection
                         taskId={task._id}
@@ -676,20 +725,21 @@ export default function TasksPage() {
             </Card>
           ))}
 
-          {/* PAGINATION */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between pt-2 text-sm text-muted-foreground">
               <p>Page {page} of {totalPages}</p>
               <div className="flex gap-1">
                 <Button
-                  variant="outline" size="sm"
+                  variant="outline"
+                  size="sm"
                   disabled={page === 1}
                   onClick={() => setPage((p) => p - 1)}
                 >
                   Previous
                 </Button>
                 <Button
-                  variant="outline" size="sm"
+                  variant="outline"
+                  size="sm"
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => p + 1)}
                 >

@@ -1,47 +1,45 @@
 "use client";
 
-import { useAuthStore } from "@/store/authStore";
-import { useRouter }    from "next/navigation";
-import { useEffect }    from "react";
-
-import { Button }       from "@/components/ui/button"; 
-import { CheckSquare }  from "lucide-react";       
+import { useAuthStore }    from "@/store/authStore";
+import { useEffect }       from "react";
+import { Button }          from "@/components/ui/button";
+import { CheckSquare }     from "lucide-react";
+import Link                from "next/link";
 
 // ── KPI & STATS ───────────────────────────────────────────
-import WeeklyProfit    from "@/components/dashboard/WeeklyProfit";
-import UsedDevices     from "@/components/dashboard/UsedDevices";
-import RegionalLabels  from "@/components/dashboard/RegionalLabels";
-import PaymentOverview from "@/components/dashboard/PaymentOverview";
+import WeeklyProfit        from "@/components/dashboard/WeeklyProfit";
+import UsedDevices         from "@/components/dashboard/UsedDevices";
+import RegionalLabels      from "@/components/dashboard/RegionalLabels";
+import PaymentOverview     from "@/components/dashboard/PaymentOverview";
 
 // ── CHARTS ────────────────────────────────────────────────
-import LineBarChart    from "@/components/dashboard/LineBarChart";
-import TopChannels     from "@/components/dashboard/TopChannels";
+import LineBarChart        from "@/components/dashboard/LineBarChart";
+import TopChannels         from "@/components/dashboard/TopChannels";
 
 // ── DATA ──────────────────────────────────────────────────
-import DataTable       from "@/components/dashboard/DataTable";
-import ActivityFeed    from "@/components/dashboard/ActivityFeed";
+import DataTable           from "@/components/dashboard/DataTable";
+import ActivityFeed        from "@/components/dashboard/ActivityFeed";
 
 // ── MANAGEMENT ────────────────────────────────────────────
-import KanbanBoard     from "@/components/dashboard/KanbanBoard";
-import NotificationsPanel from "@/components/dashboard/NotificationsPanel";
+import KanbanBoard         from "@/components/dashboard/KanbanBoard";
+import NotificationsPanel  from "@/components/dashboard/NotificationsPanel";
 
 // ── TOOLS ─────────────────────────────────────────────────
-import CalendarSchedule from "@/components/dashboard/CalendarSchedule";
-import MapWidget        from "@/components/dashboard/MapWidget";
-import AuthGuard        from "@/components/dashboard/AuthGuard";
-import ProfileSettings  from "@/components/dashboard/ProfileSettings";
-import Link from "next/link";
+import CalendarSchedule    from "@/components/dashboard/CalendarSchedule";
+import MapWidget           from "@/components/dashboard/MapWidget";
+import AuthGuard           from "@/components/dashboard/AuthGuard";
+import ProfileSettings     from "@/components/dashboard/ProfileSettings";
 
 export default function DashboardPage() {
   const user        = useAuthStore((s) => s.user);
   const initialized = useAuthStore((s) => s.initialized);
-  const router      = useRouter();
 
   useEffect(() => {
     if (initialized && !user) {
-      router.push("/auth/login");
+      // ✅ hard redirect — works cross-domain
+      window.location.href = "/auth/login";
     }
-  }, [user, initialized, router]);
+  }, [user, initialized]);
 
   if (!initialized) {
     return (
@@ -70,13 +68,13 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* quick link to tasks */}
-    <Link href="/dashboard/tasks">
-      <Button size="sm" className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
-        <CheckSquare className="h-4 w-4" />
-        My Tasks
-      </Button>
-    </Link>
+        <Link href="/dashboard/tasks">
+          <Button size="sm" className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+            <CheckSquare className="h-4 w-4" />
+            My Tasks
+          </Button>
+        </Link>
+
         <div className="text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-lg">
           {new Date().toLocaleDateString("en-US", {
             weekday: "long", month: "long", day: "numeric", year: "numeric",
@@ -103,12 +101,12 @@ export default function DashboardPage() {
         <NotificationsPanel />
       </div>
 
-      {/* ── ROW 4 — DATA TABLE (full width) ─────────────── */}
+      {/* ── ROW 4 — DATA TABLE ───────────────────────────── */}
       <div>
         <DataTable />
       </div>
 
-      {/* ── ROW 5 — KANBAN (full width) ──────────────────── */}
+      {/* ── ROW 5 — KANBAN ───────────────────────────────── */}
       <div>
         <KanbanBoard />
       </div>
@@ -127,7 +125,7 @@ export default function DashboardPage() {
         } />
       </div>
 
-      {/* ── ROW 8 — PROFILE SETTINGS (full width) ────────── */}
+      {/* ── ROW 8 — PROFILE SETTINGS ─────────────────────── */}
       <div>
         <ProfileSettings />
       </div>

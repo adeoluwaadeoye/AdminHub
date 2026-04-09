@@ -11,10 +11,10 @@ import { TableSkeleton } from "@/components/dashboard/skeletons/TableSkeleton";
 import { toast } from "sonner";
 import {
   Search, Trash2, Shield, ShieldOff,
-  Users, CheckCircle2, Loader2, ChevronLeft, ChevronRight,
+  Users, CheckCircle2, Loader2,
+  ChevronLeft, ChevronRight,
 } from "lucide-react";
 
-// ✅ proper types — no any
 type UserRole = "user" | "admin";
 
 type AdminUser = {
@@ -44,6 +44,20 @@ type UsersResponse = {
 
 export default function AdminPage() {
   const currentUser = useAuthStore((s) => s.user);
+  const initialized = useAuthStore((s) => s.initialized);
+
+  // ✅ client-side auth guard — also redirect non-admins
+  useEffect(() => {
+    if (!initialized) return;
+    if (!currentUser) {
+      window.location.href = "/auth/login";
+      return;
+    }
+    const role = (currentUser as unknown as { role?: string })?.role;
+    if (role !== "admin") {
+      window.location.href = "/dashboard";
+    }
+  }, [currentUser, initialized]);
 
   const [users,      setUsers]      = useState<AdminUser[]>([]);
   const [stats,      setStats]      = useState<Stats | null>(null);
@@ -64,7 +78,6 @@ export default function AdminPage() {
     }
   }, []);
 
-  // ✅ wrapped in useCallback so it can be added to useEffect deps
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
@@ -83,14 +96,8 @@ export default function AdminPage() {
     }
   }, [page, search]);
 
-  useEffect(() => {
-    fetchStats();
-  }, [fetchStats]);
-
-  // ✅ fetchUsers now in deps array
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+  useEffect(() => { fetchStats(); }, [fetchStats]);
+  useEffect(() => { fetchUsers(); }, [fetchUsers]);
 
   const handleRoleToggle = async (user: AdminUser) => {
     setActionId(user._id);
@@ -134,8 +141,21 @@ export default function AdminPage() {
   const doneTasks =
     stats?.tasksByStatus.find((s) => s._id === "done")?.count || 0;
 
-  // ✅ proper type for currentUser id check
   const currentUserId = (currentUser as AdminUser | null)?._id;
+
+  // ✅ show loading while auth initializes
+  if (!initialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin" />
+          <p className="text-sm text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentUser) return null;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
@@ -153,7 +173,7 @@ export default function AdminPage() {
           {
             label: "Total Users",
             value: stats?.totalUsers ?? "—",
-            icon:  <Users className="h-5 w-5 text-indigo-500" />,
+            icon:  <Users        className="h-5 w-5 text-indigo-500" />,
             color: "bg-indigo-50 dark:bg-indigo-950",
           },
           {
@@ -171,7 +191,7 @@ export default function AdminPage() {
         ].map((s, i) => (
           <Card key={i} className="shadow-sm">
             <CardContent className="p-5 flex items-center gap-4">
-              <div className={`h-11 w-11 flex items-center justify-center rounded-xl ${s.color}`}>
+              <div className={`h-11 w-11 flex items-center justify-center rounded-xl shrink-0 ${s.color}`}>
                 {s.icon}
               </div>
               <div>
@@ -209,7 +229,10 @@ export default function AdminPage() {
                   <thead className="bg-muted/50 text-muted-foreground">
                     <tr>
                       {["User", "Email", "Role", "Joined", "Actions"].map((h) => (
-                        <th key={h} className="px-4 py-3 text-left font-medium whitespace-nowrap">
+                        <th
+                          key={h}
+                          className="px-4 py-3 text-left font-medium whitespace-nowrap"
+                        >
                           {h}
                         </th>
                       ))}
@@ -219,20 +242,27 @@ export default function AdminPage() {
                   <tbody className="divide-y">
                     {users.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="text-center py-10 text-muted-foreground">
+                        <td
+                          colSpan={5}
+                          className="text-center py-10 text-muted-foreground"
+                        >
                           No users found.
                         </td>
                       </tr>
                     ) : (
                       users.map((u) => (
-                        <tr key={u._id} className="hover:bg-muted/30 transition-colors">
-
+                        <tr
+                          key={u._id}
+                          className="hover:bg-muted/30 transition-colors"
+                        >
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
                               <div className="h-8 w-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-semibold shrink-0">
                                 {getInitials(u.name)}
                               </div>
-                              <p className="font-medium truncate max-w-28">{u.name}</p>
+                              <p className="font-medium truncate max-w-28">
+                                {u.name}
+                              </p>
                             </div>
                           </td>
 
@@ -263,11 +293,15 @@ export default function AdminPage() {
                                   <button
                                     onClick={() => handleRoleToggle(u)}
                                     disabled={actionId === u._id}
-                                    title={u.role === "admin" ? "Remove admin" : "Make admin"}
+                                    title={
+                                      u.role === "admin"
+                                        ? "Remove admin"
+                                        : "Make admin"
+                                    }
                                     className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-muted transition-colors"
                                   >
                                     {actionId === u._id
-                                      ? <Loader2  className="h-4 w-4 animate-spin" />
+                                      ? <Loader2   className="h-4 w-4 animate-spin" />
                                       : u.role === "admin"
                                         ? <ShieldOff className="h-4 w-4 text-muted-foreground" />
                                         : <Shield    className="h-4 w-4 text-indigo-500" />
@@ -299,14 +333,18 @@ export default function AdminPage() {
                 <p>Page {page} of {totalPages || 1}</p>
                 <div className="flex gap-1">
                   <Button
-                    variant="outline" size="icon" className="h-8 w-8"
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
                     disabled={page === 1}
                     onClick={() => setPage((p) => p - 1)}
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant="outline" size="icon" className="h-8 w-8"
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
                     disabled={page >= totalPages}
                     onClick={() => setPage((p) => p + 1)}
                   >

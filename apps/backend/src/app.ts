@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import passport from "./config/passport";
-
 import authRoutes  from "./modules/auth/auth.routes";
 import taskRoutes  from "./modules/tasks/task.routes";
 import adminRoutes from "./modules/admin/admin.routes";

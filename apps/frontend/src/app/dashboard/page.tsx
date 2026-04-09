@@ -4,7 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter }    from "next/navigation";
 import { useEffect }    from "react";
 
-import { Button }       from "@/components/ui/button";  // ✅ added
+import { Button }       from "@/components/ui/button"; 
 import { CheckSquare }  from "lucide-react";       
 
 // ── KPI & STATS ───────────────────────────────────────────
@@ -57,7 +57,7 @@ export default function DashboardPage() {
   if (!user) return null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 space-y-12">
 
       {/* ── WELCOME STRIP ──────────────────────────────── */}
       <div className="flex items-center justify-between flex-wrap gap-2">

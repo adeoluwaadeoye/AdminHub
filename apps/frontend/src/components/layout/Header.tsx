@@ -71,6 +71,8 @@ export default function Header() {
     }
     toast.success("Signed out successfully.");
     router.replace("/");
+    // ✅ hard redirect — ensures full page reload and state reset
+    window.location.href = "/";
   };
 
   const handleLogin = () => router.push("/auth/login");

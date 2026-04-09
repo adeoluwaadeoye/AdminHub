@@ -52,7 +52,7 @@ A production-ready, full-stack task management platform built with **Next.js App
 - Tasks cleaned up automatically on user delete
 
 ### 👤 Profile & Settings
-- Update name and email
+- Update names and email
 - Change password
 - Upload avatar
 
